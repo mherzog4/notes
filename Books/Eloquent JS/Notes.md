@@ -1310,3 +1310,85 @@ throwing an exception causes the call stack to be unwound until the next enclosi
 the exception value will be given to the catch block that catches it, which should verify that it is acutally the expected kind of exception and then do something wiht it - to help adress the unpredicable control flow caused by exceptions, finally blocks can be used to ensure that a piece of code always runs whena block finishes
 
 # Chapter 9: Regular Expressions
+
+Regular expressions are a way to describe patterns in string data
+
+they form a small separate language that is part of JavaScript and many other languages and systems
+
+Regular expressions are both terribly awkard and extemely useful
+
+their syntax is cryptic, and the programming interface Javascript provides for them is clumsy - but they are a powerful too for inspecting and processing strings
+
+## Creatingg a regular expression
+
+A regular expression is a type of object - it can be either constructed with the RegExp constructor or written as aliteral value by enclosing apattern in forward slahs (/) characters
+
+``` javascript
+
+let re1 = new RegExp("abc");
+let re2 = /abc/;
+```
+Both of those regular expression objects represent the same pattern: an a character followed by a b followed by a c
+
+when using the RegExp constructor, the pattern is written as a normal string, so the usual rules apply for backslahses
+
+## Testing for matches
+
+The simplest one is test - if you pass it a string, it will return a Boolean telling you whether the string contains a match of the patten in the expression
+
+``` javascript
+console.log(/abc/.test("abacde"));
+// -> true
+console.log(/abc/.test("abxde"));
+// -> false
+```
+
+## Set of characters
+
+Finding out whether a string contains abc could just as well be done with a call to indexOf - regular expressions allow us to express more complicated patters
+
+```javascript
+
+console.log(/[0123456789]/.test(" in 1992"));
+// -> true
+console.log(/[0-9]./test("in 1992"));
+// -> true
+```
+within square brackets a hyphen (-) between two characters can be used to indicate a range of characters where the ordering is determined by the character's unicode number
+
+characters 0 to 9 sit right next to each other in this ordering (codes 48 to 57) so [0-9] covers all of them and matches any digit
+
+## Repeating pars of a pattern
+
+When you put a plus sign (+) after something in a regular expression, it indicates that the element may be repeated more than once - thus /|d+/ matches one of more digit characters
+
+```Javascript
+console.log(/'\d+'\.test("123"));
+// -> true
+```
+
+the star (*) has a similar meaning but also allows the pattern to match zero times
+
+ a question mark makes a part of a pterren optionla meaning it may occur zero times or one time
+
+ to indicate that a pattern should occur a precise number of times, use braces - putting {4} after an element for example, requires it to occur exactly 4 times
+
+ ## Grouping subexpressions
+
+ To use an operator like * or + on more than one element at a time, you have to use paras
+
+ a part of a rgular expression that is enclosed in paraens counts as a single element as far as the the operators following it are concerned
+
+ ## Matches and Groups
+
+ Rgular expressions have an exec (execute) method that will return null if no match was found and return an object with inrofmation about the match otherwise
+
+ ```javascript
+ let match = /\d+.exec("one two 100");
+ console.log(match);
+ // -> ["100"]
+ ```
+
+ ## The Date Class
+
+ 
