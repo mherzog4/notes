@@ -1,0 +1,23 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "prettier"
+    ],
+    "plugins": [],
+    "parserOptions": {
+        "ecmaVersions": 2022,
+        //how modern do you want js to be 
+        "sourceType": "module",
+        //import and exports
+        "ecmaFeatures": {
+            "jsx": true
+            //account for jsx
+        }
+    },
+    "env": {
+        "es6": true,
+        "browser": true,
+        "node": true
+        // dont give me an error when fetching or doing __dirname
+    }
+}
