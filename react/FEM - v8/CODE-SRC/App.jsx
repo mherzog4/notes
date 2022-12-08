@@ -1,37 +1,26 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
-
-const Pet = (props) => {
-  return React.createElement("div", {}, [
-    React.createElement("h1", {}, props.name),
-    React.createElement("h2", {}, props.animal),
-    React.createElement("h3", {}, props.breed),
-  ]);
-};
+import SearchParams from "./SearchParams";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Details from "./Details";
 
 const App = () => {
-  return React.createElement("div", {}, [
-    React.createElement("h1", {}, "Adopt Me!"),
-    React.createElement(Pet, {
-      name: "Luna",
-      animal: "Dog",
-      breed: "Poodle",
-    }),
-    React.createElement(Pet, {
-      name: "Maxie",
-      animal: "Dog",
-      breed: "Chocolate Lab",
-    }),
-    React.createElement(Pet, {
-      name: "Cookie",
-      animal: "Dog",
-      breed: "German Sheppard",
-    }),
-  ]);
+  return (
+    <BrowserRouter>
+      <h1>Adopt Me!</h1>
+      <Routes>
+        <Route path="/details/:id" element={<Details />} />
+        <Route path="/" element={<SearchParams />} />
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 const container = document.getElementById("root");
 const root = createRoot(container);
-root.render(React.createElement(App));
+root.render(<App />);
 
 // one way data flow from the parent component to the child componenets
+
+
+// react router renders one route at a time
+
