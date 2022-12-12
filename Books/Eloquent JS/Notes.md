@@ -1391,4 +1391,171 @@ the star (*) has a similar meaning but also allows the pattern to match zero tim
 
  ## The Date Class
 
- 
+ Javascript has a standard class for representing dates or rather points in time 0 it is called Date
+
+ if you simply create a date object using new you get hte current date and time
+
+ ```javascript
+ console.log(new Date());
+ // -> Sat Sep 01 2918 15:24:32 GMT +0200 (CEST)
+ ```
+
+ you can also create an object for a specific time
+
+ ```javascript
+ console.log(new Date(2009, 11, 9));
+ // -> Web Dec 09 2009 00:00:00 GMt +0100
+ ```
+
+ ## Word ans string boundaires
+
+If we want to enforece that the match must span the whole string, we can add the markets ^ and $
+
+the caret matches thes tart of the input string, whereas the dollar sign matches the end
+
+so, /^\d+$/ matches a string consisting entierely of one or more digits, /^!\ matches any string that starts with an exclamation mark and /x^/ doesn not match any string (hhere cannot be an x before the start of the string)
+
+## Choice patterns
+
+Say we want to k now whether a piece of text contains not only a number but a number followed by one of the words pig, cow or chickem or any of their plural forms
+
+we could write three regular expressions and test them in turn but there - is a nicer way
+
+the pipe character (|) denotes a choice between the pattern to its left and the pattern to its right so you can say this:
+
+```Javascript
+let animalCount = /\b\d+ (pig|cow|chicken)s?\b/;
+console.log(animalCount.test("15 pigs"));
+// -> true
+```
+
+## The mechanics of matching
+
+Conceptually when you sue ecev ot test the regular expression engine looks for a match in your string by trying to match the expression first from the start of the string, then from the second character and so on until it finds a match or reaches the end of the string
+
+itll either return the first match that can be found or fail to find a match at all
+
+to do the actual matching, the enginer treats a regular expression something like a flow diagram
+
+## Backtracking
+
+When matching a expression, it will often happen that the top branch is enterend even though the input does not actually contain a binary number
+
+when matching the string "103" for example, it becomes clear only that the 3 we are in the wrong branch
+
+the string does match the expression, just not the branch we are currently in
+
+so the matcher backtracks - when entering a branch, it remebers its current position (in this case at the start of the string, just pass the first boundary box) aso that it can go back and try another branch if the current one does not work outfo
+
+for the string "103" after encountering the 3 character, it will start trying the branch for the hexidecimal numbers
+
+the matcher stops as soon as it finds a full match
+
+## The Replace method
+
+String values have a replace method that can be used to replace part of the string with another string
+
+```javascript
+console.log("papa".replace("p","m"));
+// -> mapa
+```
+The first arugment can also be a regular expression, in which case the frist match of the regular expression is replace, when a g option (for global) is added to the regular expression, all matches in the string will be replaced, not just the first
+
+```javascript
+console.log("Borobudur".replace(/[ou]/, "a"));
+// -> Barobudur
+console.log("Borobudur".replace(/[ou]g/, "a"));
+// -> Barabadar
+```
+## Dynamically creating RegExp Objects
+
+Therre are cases where you might not know the exact pattern you need to match against when you are writing your code
+
+say you want to look for the users name in a piece of text and enclose it in a underscore characters to make it stand out
+
+since you will know the name only once the program is actually running , you cant use the slashbased notation
+
+bout you can buld up a string and use the RegExp constructor on that
+
+heres an example 
+
+```javascript
+let name = "harry";
+let text = "Harry is a character";
+let regexp = new RegExp("\\b(" + name + ")\\b", "gi");
+console.log(text.replace(regexp, "_$1_"));
+// -> _Harry_ is a character
+```
+
+when creating the \b boundary markers, we have to use two backslashes because we are writing them in a nomrla string, not a slash-enclosed regular expression
+
+the second argument to the RegExp constructor contains the options for the rgular expression - in this case "gi" for global and case insensitive
+
+## THe search method
+
+There is a method, search that does expect a regular expression like indexOf, it returns the first index on which the expression was found or -1 when it wasnt found
+
+```javascript
+console.log(" word".search(/\S/));
+// -> 2
+```
+
+## The lastIndex property
+
+Regular expression objects have properties - one such property is source which contains the string that expression was created from
+
+another property is lastIndex, which controls in some limited curcumstances where the next match will start
+
+## Summary
+
+Regular expressions are objects that represent patterns in strings - they use their own language to express these patterns
+
+/abc/ - a sequence of characters
+/[abc]/ - any character from a set of characters
+/[^abc]/ - any character not in a set of characters
+/[0-9]/ - any characer in a range of characters
+/x+/ one or more occureneces of the pattern x
+/x+?/ one or more occureneces nongreedly
+/x*/ zero or more occurences
+/x?/ zero on one occurence
+/x{2,4}/ two or 4 occurences
+/(abc)/ a group
+/a|b|c/ any one of several patterns
+/\d/ any digit character
+/\w/ any alphanumeric character
+/\s/ any whitespace character
+/./ any character except newlinse
+/\b/ a word boundary
+/^/ start of input
+/$/ end of input
+
+a regular expression has a method test to test whether a given string matches it
+
+it also has a method exect that when a match is found, returns an array containing all matched groups
+
+such an array has an index property that indictes where the match started
+
+Strings have a match method to match them against a regular expression and a ssearch method to search for one, retruning the starting position of the match
+
+their replace method can replace matches of a pattern with a replacement string or function
+
+regular expressions can have options which are written after the closing slash
+
+the i option makes the match case insensitive
+
+the g option makes the expression gloab which among other things cases the replace method to replace all instances instead of just the first
+
+the y option makesit sticky which means that it will not search ahead and skip part of the string when looking for a match
+
+the u option turns on Unicode mode which fixes a number of problems around the handling of characters that take ip two code units
+
+regular expressions are a sharp tool with an awkard handle
+
+they simplify some tasks tremenedously but can quickly become unmanagebale when applied to complex problems
+
+part of knwoing how to use them is resisting the urge to try to shoehorn things that they cannot cleanly express into them.
+
+# Chapter 10: Modules
+
+The ideal program has a crystal-clear strucutre. the way it wprks is easy to explaina nd each part plays a well-defined role.
+
