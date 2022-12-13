@@ -7,7 +7,7 @@ import fetchSearch from "./fetchSearch";
 const ANIMALS = ["bird", "dog", "cat", "cow"];
 
 const SearchParams = () => {
-  const [requestParams, setrequestParams] = useState({
+  const [requestParams, setRequestParams] = useState({
     location: "",
     animal: "",
     breed: "",
@@ -20,19 +20,20 @@ const SearchParams = () => {
   const pets = results?.data?.pets ?? [];
 
   return (
-    <div className="search-params">
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.target);
-          const obj = {
-            animal: formData.get("animal") ?? "",
-            breed: formData.get("breed") ?? "",
-            location: formData.get("location") ?? "",
-          };
-          setRequestParams(obj);
-        }}
-      >
+   <div className="my-0 mx-auto w-11/12">
+  <form
+    className="p-10 mb-10 rounded-lg bg-gray-200 shadow-lg flex flex-col justify-center items-center"
+    onSubmit={(e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const obj = {
+        animal: formData.get("animal") ?? "",
+        breed: formData.get("breed") ?? "",
+        location: formData.get("location") ?? "",
+      };
+      setRequestParams(obj);
+    }}
+  >
         {adoptedPet ? (
           <div className="pet image-container">
             <img src={adoptedPet.images[0]} alt={adoptedPet.name} />
@@ -40,11 +41,12 @@ const SearchParams = () => {
         ) : null}
         <label htmlFor="location">
           Location
-          <input name="location" id="location" placeholder="location" />
+          <input type="text" name="location" id="location" placeholder="location" />
         </label>
         <label htmlfor="Animal">
           Animal
           <select
+          className = "search-input"
             id="animal"
             value={animal}
             onChange={(e) => {
@@ -59,14 +61,17 @@ const SearchParams = () => {
         </label>
         <label htmlfor="breed">
           Breed
-          <select id="breed" disabled={breeds.length === 0}>
+          <select 
+          className = "search-input" id="breed" disabled={breeds.length === 0}>
             <option />
             {breeds.map((breed) => (
               <option key={breed}>{breed}</option>
             ))}
           </select>
         </label>
-        <button>Submit</button>
+        <button className = "search-input grayed-out-disabled">
+          Submit
+        </button>
       </form>
       <Results pets={pets} />
     </div>
