@@ -1,5 +1,4 @@
 # A resource for my graphql notes
-
 ## notes
 
 A resource for my graphql understanding

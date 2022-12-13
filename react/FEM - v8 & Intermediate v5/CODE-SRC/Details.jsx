@@ -5,10 +5,11 @@ import Component from "./Component";
 import Carousel from "./carousel";
 import ErrorBoundary from "./ErrorBoundary";
 import { useState } from "react";
-import Modal from "./Modal";
 import { useContext, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AdoptedPetContext from "./AdoptedPetContext";
+
+const Modal = lazy(() => import("./Modal"));
 
 const Details = () => {
   const [showModal, setShowModal] = useState(false);
