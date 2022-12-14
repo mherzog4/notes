@@ -1,4 +1,10 @@
-import { useContext, useState } from "react";
+import {
+  useContext,
+  useDeferredValue,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import AdoptedPetContext from "./AdoptedPetContext";
 import { useQuery } from "@tanstack/react-query";
 import Results from "./Results";
@@ -14,26 +20,34 @@ const SearchParams = () => {
   });
   const [animal, setAnimal] = useState("");
   const [breeds] = useBreedList(animal);
+  const [isPending, startTransition] = useTransition();
   const [adoptedPet] = useContext(AdoptedPetContext);
 
   const results = useQuery(["search", requestParams], fetchSearch);
   const pets = results?.data?.pets ?? [];
+  const deferredPets = useDeferredValue(pets);
+  const renderedPets = useMemo(
+  () => <Results pets={deferredPets} />,
+  [deferredPets]
+);
+
 
   return (
    <div className="my-0 mx-auto w-11/12">
-  <form
-    className="p-10 mb-10 rounded-lg bg-gray-200 shadow-lg flex flex-col justify-center items-center"
-    onSubmit={(e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const obj = {
-        animal: formData.get("animal") ?? "",
-        breed: formData.get("breed") ?? "",
-        location: formData.get("location") ?? "",
-      };
+<form
+  onSubmit={(e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const obj = {
+      animal: formData.get("animal") ?? "",
+      breed: formData.get("breed") ?? "",
+      location: formData.get("location") ?? "",
+    };
+    startTransition(() => {
       setRequestParams(obj);
-    }}
-  >
+    });
+  }}
+>
         {adoptedPet ? (
           <div className="pet image-container">
             <img src={adoptedPet.images[0]} alt={adoptedPet.name} />
@@ -69,11 +83,17 @@ const SearchParams = () => {
             ))}
           </select>
         </label>
-        <button className = "search-input grayed-out-disabled">
-          Submit
-        </button>
+        {
+  isPending ? (
+    <div className="mini loading-pane">
+      <h2 className="loader">🌀</h2>
+    </div>
+  ) : (
+    <button>Submit</button>
+  );
+}
       </form>
-      <Results pets={pets} />
+      {renderedPets}
     </div>
   );
 };
