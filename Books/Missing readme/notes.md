@@ -126,7 +126,7 @@ managers usually want to track progress so ask your manager how to communicate s
 
 you'll probably also attend your first planning session, usually a sprint planning meeting
 
-you mught also join retrospective or allhands meetings
+you might also join retrospective or allhands meetings
 
 ask for an overview of the roadmap and development planning process
 
