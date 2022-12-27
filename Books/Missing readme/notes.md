@@ -114,7 +114,7 @@ read pull requests and code reviews
 
 dont be afriad to ask for more information
 
-sign up for tech talks, brown bafs, reading groups, mentorship programs and the like
+sign up for tech talks, brown bags, reading groups, mentorship programs and the like
 
 now is the time to build a relationship with your manager
 
