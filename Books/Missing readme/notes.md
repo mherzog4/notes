@@ -658,3 +658,366 @@ its possible that it is solving a nonobvious problem
 if you cant figure out a good reason ask around
 
 ### Dont fork without commit upstream
+
+Forks are used before submitting pull request to the upstream repository
+
+forking lets people who dont have write access to the main repo contribute to the project-a ormal and healthy pracice
+
+### Resits the tempatation to rewrite
+
+some rewrites are worth doing but many are not
+
+rewrites should only be undertaken if the benefit exceeds the cost; they are risky and their cost is high
+
+engineers always understimate how long a rewrite will take
+
+migrations in particular are awful
+
+data neeeds to be moved - upstream and downstream systems need to be updated
+
+this can take years or een decades
+
+
+in the famouse book the mythical man-month fred brooks coined the phrase second system syndrome which describes how simple systems get replaced by complex systems
+
+The first system is limited in scope since its creators dont understand the problem domain
+
+the system does its job but its awkward and limited
+
+the developers who now have expereince see clearly where they went wrong
+
+they set out to develop a second system with all the clever ideas they have
+
+the new system is designed for flexibility-everything is configurable and injectable
+
+sadly second systems are usally a bloated mess
+
+if you set out to rewtie a system be very cautsious about overextending
+
+# Chapter 4: Writing operable code
+
+Writing operable code helps you deal with the unforseen
+
+operable code has built-in protection,diagnostics and controls
+
+## Defensive Programming
+
+Defensive code fails less often and when it does it is more likely to recover
+
+make you code safe and resilient 
+
+safe code takes advtange of compile-time validation to avoid runtime failures
+
+use immutable variables, access modifiers to restrict scope and static type-checker to prevent bugs
+
+at runtime, validate input to avoid suprises
+
+reslient code uses exception-handling best practices and handles failures gracefully
+
+### Avoid null values
+
+perfrom null checks at the beginning of methods
+
+use NotNull annotations and similar language feautes when available
+
+validating up fron that variables arent null means that later code can safely assume that its dealing with real values; this will keep your code cleaner and more legible
+
+### Make Variables immutable
+
+immutable varaibles cant be changed once they're set
+
+immutabe variables prevent unexpected modifications - many more variables cna be made immutable thatn you might expect
+
+### Use type hinting and static type checking
+
+constrain the values that variables can take - for example variables with only a few string values should be Enum rather a string
+
+Dynamic languages such as pythong, Ruby via Sorbet, and Javascript via Typescript all now have increasingly robust support for type hinting and static type checkers
+
+### validate inputs
+
+never trust hte input your code receives
+
+protect your code by validating that its input is well formed
+
+use preconditions, checksum, and validate data, use securtity best practices and use tools to find common errors
+
+Validate methon input variables using preconditions nad post conditions
+
+Use mature libraries and frameworks to prevent cross-site scripting attacks
+
+always escpae inputs to prevent SQL injection attacks
+
+explicitly set size parameters when manipulating memory with commands like strcpy to prevent buffer overflows
+
+use widely adopted security and cryptography libraries or protocols instead of writing your own
+
+familiarize yourself with the Open Web Application Security Project top 10 security report to quickly bootstrap your security knowledge
+
+### Use Exceptions
+
+Don't use special return values (null, 0, -1, and so on) to signal an error
+
+all modern languages support exceptions or have a standard exception handling pattern
+
+### Be precise with exceptions
+
+Precise exceptions make code easier to use - use built in exceptions when possible and avoid creating generic exceptions
+
+use exceptions fo failures not to control application logic
+
+Dont create custom exceptions if a built-in type can describe the problem
+
+when creating your own exceptions dont make them too generic
+
+generic exceptions are difficult to handle becuase developers dont know what kind of problem they're dealing with
+
+### Throw exceptions early, catch exceptions late
+
+follow the "throw early, catch late" principle
+
+throwing early means rasiing exceptions as close to the error as possible so developers can quickly find the relevant code
+
+when an error occurs but other code is executed before the exception is throw, you risk the possibility of a second error being triggered
+
+if an exception is thorw for the second error, you dont know that the first error happened
+
+catching exceptions late means propagating exceptions up the call stack until you reach the level of the program that is capable of handling the exception
+
+### Retry Intelligently
+
+The appropriate reaction to an error is often to simply try again
+
+plan on occasionally having to try mutliple times when calling remote systems
+
+retying an operation sounds easy: catch the exception and rety the operation - in practice when and how often to retry requires some know-how
+
+its prudent to use a strategy called backoff
+
+backoff increase sleep time nonlinearly (usually an expontnetial backoff such as (retry number)^2)
+
+if you use this approach make sure to cap the backoff at some maximum so it doesnt get too larger
+
+however if a network has a blip and all clients expereince that blip simultaneously then bakc off using the same algorithm; they will all reissue their requests at the same time
+
+this is called thundering herd; many clients isssuing retry requests simultaneaously can bring a recovering service back down
+
+to handle this, add jitter to the backoff strategy
+
+with jitter, clients add a random, bounded amount of time to the backoff
+
+introducign randomness spreads out the requests, reducing the likelihood of a stampede
+
+make sure to fail not only fast but also loudly - relevant information should be visible so that debugging is easy
+
+### Write idempotent systems
+
+The best way to deal with retries is to build idempotent systems
+
+an idempotent operation is one that can be applied multiple times and still yield the same outcome
+
+### Clean up resources
+
+be sure to clean all resources when a failure occurs
+
+## Logging
+
+For complex applications, languages have sophisticated logging libraries to give operators more control over whats loggen and when
+
+use a logging frameowkr to make your code easier to operate and debug - set log levels so your operators cna control your applications log volume - keep logs atomic, fast and secure
+
+### use log levels
+
+Logging frameworks have log levels which let operators filter messages based on importance
+
+while log levels are not completely standard, the following levels are common:
+
+- trace
+    - this is an extermly fine level of detail that only gets turned on for specific packages or classes
+
+- Debug
+    - This is used when the message will be useful during a production issue but not during normal operations
+
+- Info 
+    - This nice-to-have information about the state of the application but not indicative of any problems
+
+- WARN 
+    - These are messages about potentially problematic situations
+    - whenever you log a warning, there should be a concrete action you want th eperson seeing the message to take
+
+- ERROR
+    - Theses messages idicate that an error that needs attention is occruing
+
+- FATAl
+    - these are the "last gasp" log messages
+    - if the program encounters a condition so sever that it must exit immeditately, a message about the cause of the problem can be logged at the FATAL level
+
+### Keep logs atomic
+
+If information is useful when couple with other data, log it all automatically in one message
+
+atomic logs which have all relevant information in one line work better with log aggregators
+
+### Keep logs fast
+
+Execisve logging will hurt performance.
+
+### Dont log sensitve data
+
+Be careful when dealing with sensitive data
+
+log messages shouldnt include private data like paswords, security tokens, credit card numbers, or emails
+
+most frameworks support rule-based string replacement and redaction; configure them but do not rely on them as your only defense
+
+be paranoid; logging sensitive data can create security risks and violate privacy regulations
+
+## Metrics
+
+Metrics are the numerical equivalent of lgs; they measure application behavior
+
+how long did a query take?
+
+how many elements are in a queue?
+
+how much data was written to disk?
+
+etc
+
+there are 3 common metrics types: Counters, gauges, and histograms
+
+Counters measure the number of times an even happens
+
+using a cache hit counter and request counter, you can calculate cache hit rates
+
+Counters only increase in vlaue or reset to 0 when a process restarts
+
+guages are point-in-time measurements that can go up or down; think of a speedometer
+
+Gauges expose statistics such a the size of queue, stack, or map
+
+histograms break event sinto ranges based on their magnigtued
+
+each range has a counter that is incremeneted whenever an event value falls into its range
+
+histogram commonly measure the amount of time requests take of data payload sizes
+
+appliction metrics are aggregated into centralized observability ystems like Datadog
+
+observability is a concept from control theory that defines how easy it is to determine the state of system by looking at its outputs
+
+Metrics are also used to automatically scale a system up or down
+
+autoscaling is common in evnironments that provide dynamic resource allocation
+
+To track SLOs use observability systems and take advatnage of autoscaling features you must measure everything
+
+## Use standard metrics libraries
+
+Standard libraires will integrate with evrything out of the box
+
+your company probably has a metrics library that they prefer - if they do, use it, if they dont start a discussion to adopt one
+
+### Measure everything
+
+Measurements are cheap; you should use them extensively. measure all of the following data sructrues, operations, and behaviors
+
+- resource pools
+- caches
+- data structures
+- CPU intensive operations
+- I/O intensive operations
+- data size
+- exceptions and erros
+- remote requests and response
+
+## Traces
+
+Developrs all know about stack traces, but there's a less familiar kind of trace: A distributed call trace
+
+a single call to a frontend API might result in hundres of downstream RPC calls to different services
+
+Distributed call traces stitch all of these downstream calls together in one graph
+
+distributed traces are usrlf for debugging erros, measuring performance, understanding dependencies, and analyzing system costs
+
+## Configuration
+
+Applications abd services should expose setting thats allow developers or site reliability engineers to configure runtime behavior
+
+appling configuration best practices will make your code easier to rune
+
+configuration can be expressed in many ways:
+
+- files in plain, human readbale formats sucha as JSON & YAML
+- enviroment variables
+- command line flags
+- A customer domain specific language
+- the language the application is written in
+
+Human-readbale config files, enviromnment vaiarbales and command flags are the most common approach
+
+files are used when ether are many values to set or theres desire to version control the configurations
+
+environment variables are easy to set in scripts and envionments can be easily examined and logged
+
+command line flags are east to set and are visibile in pricesses lists like ps
+
+### Dont get creative with configuration
+
+Configuration systems should be boring
+
+Do not get creative with configuration-use the simplest possible approach that iwll work
+
+a static configuration file in asingle standard format is ideal
+
+### Log and validate all configuration
+
+Log all (nonsecret) configuration immeditaely upon startup to show what teh application is seeing
+
+### Provide defaults
+
+set good defaults so your application will work well for most users out of the box
+
+default to network ports greater than 1024 if no portconfigured
+
+use the systems termporary directory or the users home directory if no directory paths are specified
+
+### Group related configuration
+
+use a standard format like YAML that allows for nesting grouping related properties makes configuration easier to roganize and maintain
+
+### Treat configuration as code
+
+The configuration as code philosopht says that configuration should be subjected to the same rigor as code
+
+configuration mistakes cna be disastrious
+
+to keep configratuon changes sage, configuration should be version controlled, reviewed, tested, build, and published
+
+### Keep configuration files clean
+
+clean configuration is easier for others to understand and change
+
+deleted unused configuration, use standard formattting and spacing and dont blindly copy configruation from other files
+
+### Dont edit deployed configuration
+
+Avoid hand-editing configuration a specific machine
+
+one-off config changes are overwritten on subsequent deployments, its unclear who made the changes and machines with similar configurations end up diverging
+
+## Tools
+
+organizations with strong SRE teams might also write tools for your systems
+
+regardless work with you operations team to understand what they need
+
+Your company might already have an existing toolset; its common to have a standard internal web tools framework
+
+integrate your tiools with the standard frameworks available to you
+
+# Chapter 5: Managing Dependencies
+
+
+
