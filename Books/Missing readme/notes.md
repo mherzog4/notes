@@ -1019,5 +1019,166 @@ integrate your tiools with the standard frameworks available to you
 
 # Chapter 5: Managing Dependencies
 
+But dependencies bring risk: incompatible changes, circular dependencies, version conflicts, and lack of control
+
+you must consider these risks and how to mitigate them
+
+## Dependency Management Basics
+
+A dependency is code that you code relies on
+
+the time at which a dependency is needed-during complilation, testing or runtime-is called its scope
+
+Versioned packages are used to control when dependnecies change and to reoslve conflicts when different versions of the same package appear 
+
+a good versioning scheme has versions that are
+
+unique - versions should never be reused
+
+comparable - versions should help humans and tools reason about version precedence
+
+informative - versions diffentiate between prereleased and set stability and compatibility expectations
+
+### Semantic Versioning
+
+The packages in the previous example use a versioning scheme called semantic versioning, one of the most commonly used versioning schemes
+
+Version numbers are combined into a single Major.Minor.Patch version number
+
+the httpclient version 4.3.6 has a major, minor, and patch of 4,3, and 6
+
+Major version 0, considered "prerelease", is intended for fast iteration; no compatibility guarantees are made
+
+developers can change APIs in ways that break older code, like adding a new required parameter or feleting a public method
+
+starting with major version 1, a project is expected to guarantee the following:
+
+- Patch versions are incremented for backward-compatibility bug fixes
+- Minor versions are incremented for backward-compatible features
+- Major versions are incremented for backward-incomptabile changes
+
+Many projects use release candidate(rc) builds
+
+early adopters can find bugs in RCs before the official relases
+
+RC prerealeases versions have incremenetal idenftifiers, such as 3.0.0-rc.1
+
+the final RC is then promoted to the release version by re-releasing it without an RC suffix
+
+all prereleased cersions are superseded by the final (3.0.0 in our examples)
+
+## transitive dependencies
+
+Package management or build files show a projects direct depenedecies, but direct depenedncies are only a subset of what build or packaging systems actually use
+
+dependencies usally depend on other libraries, which become transitive dependnecneis
+
+a dependency report shows the fully resolved dependency tree (or dependnecy graph)
+
+Understanding transitive dependnecies is a critical part of dependnency management
+
+adding a single dependnecy sems like a small change, but if that library depends on 100 others, your code now depends on 101 librariries - any change in any deependency can affect your program
+
+## Dependncy Hell
+
+conflicting versions of the same library, or an incompatible library upgrade, can break builds and cause runtime failures
+
+the most common dependncy hell culprits are circular dependnencies, diamond dependencies and version conflicts
+
+Projects often set version numbers without compatability checks and even automation cant fullt gurantee compatibility
+
+incompatible changes slip into minor or patch releases wreaking havoc on your codebase
+
+even nastier are circular dependncies, where a library transitively depends on itself ( A depennds on B, which depends on C, which depends on A)
+
+Circular dependencies create a chicken and egg problem: Upgrading one library breaks the other 
+
+utility or helper projects commonly apprear in circular dependncies
+
+## Avoiding Dependncy Hell
+
+Dependcies are unavoidable, but every new dependncy comes with a cost - ask yourself if a dpency value outweighs its cost
+
+- do you really need the functionality
+- how well mainted is the dependncy
+- how easy would it be for you to fix the dependency if something went wrong
+- how mature is the dependncy
+- how frequently does the dependncy introudcues backward incomptablie changes
+- how well do you, your teamand your org understand the dependncy
+- how easy is it to write the code your self
+
+### Isolate dependencies
+
+You dont have to leave dependency mangement to build and package systems
+
+dependnet code can also be copied, vendored, or shaeded
+
+copying code into your porject trades dependnecy management automation for more isolation (stability)
+
+many developers are raised on the DRY philosophy, whcih discourages code duplication
+
+be pragmatic; dont be afraid to copy code if it helps you avoid a big or unstable dependency
+
+copying code works best on small and stable code fragements
+
+manually copying entire libararies has drawbacks: version history can be lost, and you must recopy code every time you update it
+
+Dependency shading can also isolate dependencies
+
+shading automatically relocates a dependncy into a different namespace to avoid coflicits: some.package.space becomes shaded.some.package.space
+
+this is a friendly way to keep libraries from forcing their dependncies on applications
+
+shading is an advnaced techniqiue and should be used sparingly
+
+never expose shaded dpendencny's objects in public APIs
+
+doing so means developers will have to create objects in the shaded package spaced (shaded.some.package.space.Class)
+
+### Deliberately add Dependncies
+
+Expliciltlly declare as dependncies all libraries you use
+
+dont rely solely on the IDE for depenndcy mangagement
+
+declare you dependncies explicitliy in build files
+
+IDES often store dependncies in their own project  configuration, which builds machinery doesnt like at 
+
+inconsistency between your IDE and build files will make code work in the IDE but now when actually building your code
+
+### Pin versions
+
+Expleciitly set every dependncy's version number, a practice called version pining
+
+unpinned verision will be decided by the build or package management system for you - leaving your fate to the build system is a bad idea
+
+```markdown
+require{
+    github.com v0.1.0
+}
+```
+
+### Scope Dependncies Narrowly
+
+Dependcy scope, defines when in the build lifecycle a dpendncy is used
+
+scoping has a hierarchy: compile-time dependcies are used during runtime, but runtime dependncies are not used to compile code, only to run it
+
+test dependncies are only pulled in for test execution and are not necessary for normal use of the published code
+
+use the narrowest possbile scope for each dependency
+
+### Protect yourself from circular dependncies
+
+Never intorudce cricular dependnceies
+
+circular dependcies lead to strang build system behavior and deployment ordering problems
+
+builds will appear to work and then suddenly fail and applucations will have elusive and sporadic bugs
+
+# Chapter 6: Testing
+
+
 
 
