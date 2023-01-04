@@ -1179,9 +1179,325 @@ builds will appear to work and then suddenly fail and applucations will have elu
 
 # Chapter 6: Testing
 
+Its easy for tests be busywork - bad teests add developer overhead without providiing value and can increase test suite instability
+
+## The many uses of Tests
+
+They protect the code from future changes that unintentionally alter its behavior, encourage clean code, force developers to use their own APIs, document how componenets are to be interacted with, and server as a playground for experimenetion
+
+above all, tests veryfiy that software behaves as expected
+
+Test writing also froce developers to think about the interface and implementation of ther program
+
+new code will have rough edges; testing exposes clumsy interface design early so it can be corrected
+
+tests also expose messy implmentation - spaghetti code, or code that has too many dependencies is difficult to test
+
+writing tests force developers to keep their code well factored by improving separation of concersn and reducing tight coupling
+
+code cleanliness side effects in tests are so strong that test-driven development has become commonplpace
+
+TDD is the practice of writing tests before code
+
+the tests fail when written, adn then code is written to make them pass, TDD forces developers to think about behavior, interface design and integration before cranking about a bunhc of code
+
+## Types of tests
+
+Unit tests verify "units" of code-a single method or behavior
+
+unit tests should be fast, small and focused
+
+speed is important because these tests run frequently-often on developer laptops
+
+integration tests verify that multiple components work together
+
+if you find yourself instantiating multiple objects that intereact with each other in a test, you're probably writing an integration test
+
+integration tests are often slower to execute and require a more elaborate setup than unit tests
+
+System tests verify the whole system
+
+End-to-end workflows are run to simulate real user interaction in preproduction environments
+
+approaches to system test automation vary
+
+some organizations require that system tests pass before a release, which means all componenents are tested and released in lockstep
+
+synthetic monitoring scripts run in production to simulate user registrration, browse for and purchase an item and so on
+
+syntehtic monitoring requires instriumation that allows billing, accounting and other systems to distinguis these production tests from real activitiy
+
+performance tests scuh as load and stress tests, measure system performance under different conditions
+
+load tests measure performance under various levels of load: for exmaple how a system performs when 10, 100, or 1,000 users access it concurrently
+
+stress tests push system load to the point of failure
+
+Stress testing exposes how far a system is capable of going and what happens under excessive load
+
+accpetance tests are performed by a customer or their proxy to validate that the delivered software meets acceptance criterai
+
+these tests are faily common in enterprise software where formal acceptance tests and critiera are laid out as part of an expensive contract
+
+the international stnadards organziation requires acceptance tests that validate explicit business requirements as part of their security standard; certification auditors will ask for evidence of documentation fo rboth the requiements and the corresponding tests
+
+## Test Tools
+
+Test tools fall into several categories: test-writing tools, test execution frameowkrs and code quality tools
+
+test-writing tools like mocking libraries help you write clean and efficient tests
+
+test frameworks help run tests by modeling a tests lifecycle from setup to teardown
+
+code quality tools are used to analyze code coverage and code complexity, find bugs through static analysis and check for style erros
+
+analysis tools are usually set up to run as part of a build or compile step
+
+everyone must understand the tool, along with all of its idiosyncrasies
+
+the tool might depend on other librarires which will further increase the complexity of the system
+
+### Mocking Libaries
+
+Mocking Libaries are commonly used in unit tests, particularlly in Object-oriented code
+
+code often depends on external systems, librairies or objects
+
+Mocks replace external dependncies with stubs that mimic the interface provided by the real system
+
+while mocking is useful - dont over do it
+
+Mocks with complex internal logic make your tests brittle and hard to understand
+
+starti with basic inline mocks inside a unit test and dont write a share mock class until you begin repeating mocking logic
+
+### Test frameworks
+
+test frameowkrs help you write and execute tests
+
+you'll find frameowkrs that help coordinate and execute unit tests, integration tests, performance tests, and even UI tests
+
+frameowkrs do the following:
+
+- manage test setup and teardown
+- manage test execution and orchestration
+- generate test result reports
+- provide tooling such as extra assertion methods
+- integrate with code coverage tools
+
+Many test frameworks give multiple options for setup and teardown execution-before each test, before all tests in a file, or befoer all tests in a build
+
+Running one test at time is safe because tests habe less change of impacting one another
+
+parallel execution is faster but more error prone due to shared state, resource or other contamination
+
+frameworks can be configured to start a new process between each test
+
+this further isolates tests, since each test will start fresh
+
+beware that starting new processes for each test is an expensive operation
+
+test reports help developers debug failed builds - eports give a detail readout of which tests passes, failed or were skipped
+
+### Code quality tools
+
+tools that enforce code quality rules are called linters
+
+linters run static analysis and perform style checks
+
+code quality monitoring tools report metrics such as complexity and test coverage
+
+static code analyzers look for common mistakes like leaving file handles open or using unset variables
 
 
+code style chekcers ensure all source code is fomratted the same way
 
+max characters per line, camelCasing vs snake_casing, proper indentation, that sort of thing
 
+code complexity tools guard against over complex logic by calculating cyclomatic complexity or roughly the number of paths through the code
 
+the higher your codes complexity, the more difficutl it is to test, and the more defects it is likely to contain
 
+code coverage tools measure how many lines of code were exercises by the test suite
+
+if your change lowers code coverage, you should write more tests
+
+make sure that tests are exercising any new changes taht you've maid
+
+aim for reasonable coverage (the rule of thumb is between 65 and 85 percent)
+
+Be pragmatic with code bases that fail quality checks
+
+dont let code get worse, but avoid disruptive stop-the-world cleanup projects
+
+## Writing your own tests
+
+you are responsible for making sure your team's code works as expected
+
+write you own tests; dotn expect others to clean up after you
+
+many companies have formal quality assuance (QA) teams with varying responsiblilties including the following:
+
+- Writing black box or white box tests
+- wiritng performance tests
+- performaning integration, user acceptance, or system tests
+- providing and maintaing test tools
+- maintianing test environments and infrastructure
+- defining formal test certification and release processes
+
+if you are in the company with a formal QA team, find out what they are responsible for and how to engage with them
+
+### Write clean tests
+
+write test witht he same care that you write other code
+
+tests introduce dependncneis, require maintance and need to be refactoed over time
+
+use good programming practices on tests
+
+documenta how test work, how they can be run, and why they were written
+
+focus on testing fundamental functionality rather than implementation details - this helps when the code base gers refactored, since tests will still run after the refactoring
+
+keep test dependencies separate from your regular code dependncies
+
+if a test requires a libary to run, dont force the entire codebase to depend on the libary
+
+### dont overdo testing
+
+Write tests that fail meanigfully - avoid chasing higher code coverage just to boost coverage metrics.
+
+use code coverage as a guide, not a rule
+
+High code coverage does not guarantee correctness
+
+focus effort on the highest value tests
+
+test take time to write and maitnain 
+
+focusing on high-vaulue tests tields the most benefit for the cost
+
+use a risk matrix to find areas to focus on
+
+a risk matrix defines risk as the likelihood and impact of a failure
+
+## Determinism in tests
+
+Deterministic code always produces the same output for the same input
+
+but contrast, nondeterministic code can return dufferent results for the same inputs
+
+Nondeterminisitc tests are a problem that plague many projects
+
+its important to understand why nondeterministic tests are bad, how to fix them and how to avoid writigng them
+
+nondeterministi tests degrade test value
+
+intermittent test failutes (known as flapping tests) are hard to reproduce and debug becauase they dont happen every run or even every tenth run - you dont know whterh the problem is with the test or with you code
+
+intermittently failing tests should be disable or fixed immediately - run a flapping test repeated in a loop to repodcude the failure
+
+once you've reproduced the failure you can fix it by eliminating the non determinism or fixing the bug
+
+escape non determinism by making time and randomness deterministic, cleaning up after tests and avoiding network calls
+
+### Seed random number generators
+
+Random number generators (RNGs) must be seeded with a value that dictates the random numbers you get from it
+
+by default, random number generators will use the system clock as a seed 
+
+system clocks change over time so two runs of a test with a random number generator will tield different results -nondeterminism
+
+### dont call remote systems in unit tests
+
+Remote system calls require network hops which are unstable
+
+network calls can time out which introduces nondeterminism into unit tests
+
+avoiding remote calls (which are slow) also keeps unit tests fast and protable
+
+speed and portability are critical fo unit tests since developers run them frequently and localy on development machines
+
+You can eliminate remote system calls in unit tests by using mocks or by refactoring code so remote systems are only required for integration tests
+
+### inject clocks
+
+code that dpends on specific intervals of time cna cause nondeterminism if not handled correctly
+
+Code that waits 500 ms for someething to happen is brittle
+
+a test will pass if the code runs in 499 ms but fail when it runs in 501 ms
+
+static system clock methods like now or sleep signal that your codie is time dependnent
+
+use injectable clocks rather than static time methods so you can control the timing that you code sees in a test
+
+### Avoid sleeps and timeouts
+
+developers often use sleep() calls or timeouts when a test requires work in a separate thread, process, or machine to complete before the test can validate its result
+
+the problem with this techniq is that it assumes that the other thread of executiong will finish in a specific amount of time, which is not something you can rely on.
+
+Sleeping in tests, or setting long timeouts also slows down your test execution and therefore your development and debugging process
+
+if you have a test that sleeps for 30 minutes, the fastes your tests will ever execute is 30 minutes 0 if you have a high (or no) timeout, you test can get stuck
+
+### close network sockets and file handles
+
+Leaked resoources cause nondetermisinism
+
+operationg systems have a cap on the number of sockets and file handles and will begin rejecting new requests when too many resources are leaked
+
+a test that is unable to open new sockets or file handles will fail
+
+leaked network sockets also break tests that use the same port
+
+even if tests are run serially, the second will fial to bind to the port since it was opened byt not closed previously
+
+### Bind to port zero
+
+tests should not bind to a specific network port
+
+static port binding casuses nondeterminism: a test that runs fine on one machine will fail on another if the port is already taken
+
+### Generate unique file and databse paths
+
+tests should not write to statically defined locations
+
+data persistence has the same probelm as netowkr port binding
+
+constant filepaths and database locations cause tests to interfere with each other
+
+dynamically generate unqiue filenames, directory paths, and database or table names
+
+### Isolate and clean up leftover test state
+
+tests that dont clean up state cause nondeterminism
+
+You must reset state whether your tests pass or not; dont let failed tests leave debris behind
+
+use setup and teardown methods to delete test files, clean databses, and rest in-menory test state between each execution
+
+rebuild environments between test suite runs to rid test machines of leftover state
+
+#### Dont depend on test order
+
+tests should not depend on a specific order of execution
+
+ordering dependncies usally happen when a test writes data and a subsequent test assumes the data is written
+
+this pattern is bad for many reasons:
+
+- if the first test breaks, the second will break too
+- its harder to parallelize the tests, since you cant run the second test until the first is done
+- changes to the first test might accidently break the second
+- changes to the test runner might cause your tests to run in a different order
+
+use setup and teardown methods to share logic between tests
+
+provision data for each test in the setup method and clean up data in the teardown
+
+resetting state between each run will keep test from breaking each other when they mutate state
+
+# Chapter 7: Code reviews
