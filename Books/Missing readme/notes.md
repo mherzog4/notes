@@ -1501,3 +1501,283 @@ provision data for each test in the setup method and clean up data in the teardo
 resetting state between each run will keep test from breaking each other when they mutate state
 
 # Chapter 7: Code reviews
+
+A culture of high-quality code reviews helps engineers of all expereince levels grow and promotes a shared understanding of the codebase
+
+a poor code review culture inhibits innovation, slows down development and builds resentment
+
+## Why Review Code
+
+Revies can catch bugs and keep code clean - but review's value goes beyond having humans stand in for automated tests and linterns
+
+Good reviews act as a teaching tool, spread awareness, document implmenetation decisions, and provide changes records for security and compliance
+
+code reviews act as a teaching and learning tool for your team
+
+you can learn from the feedback that you cdoe reviews get
+
+reviewers will point out useful libraries and coding practices that you might not be aware of
+
+you can also read code review equests from more senior teammates
+
+reviewing changes to the codebase ensures that more than one person is familiar with every line of production code
+
+a shared understanding of the codebase helps the team evolve code more cohesivley
+
+records of review comments also serve aas documentation, explaining why things were done as they were
+
+its not always obvious why code is written in a certain way
+
+code reviews act as an archive for implementation decisions
+
+having older cover reviews to consult provides developers with a written history
+
+All these benefits of code reviews apply only when all the participants are able to work in a "high trust" environmennt, in whcih reviewrs are intentional about providing useful feedback and reviewees are open to input
+
+poorly executed reviews become toxic
+
+thoughtless feedback provides no value and slows developers down
+
+## Getting your code reviewd
+
+code changes are prepared, submitted, reviewd and finally approved and merged
+
+developers start by preparing their code fo rsubmission
+
+once code is ready, they submit the changes, creating a "review request", and reviewrs are notified
+
+if there's feedback, back and forth discussion occurs and changes are made - the review is then approved and merged into the code base
+
+### prepare your review
+
+keep individual code changes small, separate feature, and refactoring work into different reciews and write descriptive commit messages
+
+include comments and tests
+
+dont get attached to the code you submit for review; expect it to change, sometimes significantly, as it goes thrugh the process
+
+include a title and description, add reviewers and link to the issue that your review request is resolving
+
+the title and description are not the same as a commit message
+
+the requests title and description should include added context about how the changes were tested, links to other resources, and callouts on open questions or implementation deatils
+
+here is an example:
+
+``` markdown
+Reviewers: johnsmtih, ui-ux, jdoe
+Title: [UI-1234] Fix missing link in menu header
+Description:
+
+# Summary
+The main menu header is missing a link for the About Us menu option.
+Clicking the menu button doesn nothing right now. Fixed by adding a proper href.
+
+Added a Selenium test to verify the change
+
+# Checklist
+This PR:
+
+- [x] Adds new tests
+- [] Modifies public-facing APIs
+- [] includes a design document
+```
+
+### De-risk with Draft reviews
+
+Draft changes are a grat way to think through and propse a change without investing as much time in writing tests, polishing code, and adding documentation
+
+you can sanity check what you're doing by submitting a draft review, an informal review request intended to get quick and cheap feedback from teammates, which significantly reduces the risk that you go too far down the wrong path
+
+to avoid vconfusion, be clear when a code review is a draft or a working in progress (WIP)
+
+Once your draft feels like its on the right track, you can transition it out of the fraft state by finishing the implementation, tests, documentation, and adding polish
+
+again, be clear when your code is ready for a nondraft review and then prepare the review request as described in the previous section
+
+### Don't submit reviews to trigger tests
+
+submitting a code review as a way to trigger test execution is wasteful 
+
+your review will fill the test queue, which will block reviews that actually need their tests to be run before merge
+
+invest the time to learn how to run your tests locally
+
+debugging a failed test is easier locally than in CI environmenets; you wont be able to attach debuggers or get debug information easily on remote machines
+
+make your coding and testing cycle fast so you know immeditaely if your changes break anything - its an up front costs, but it will save you time in the long run.
+
+### Walk through large code changes
+
+conduct code walk throughs when making large changes
+
+walk throughs are in oerson meetings where a developer shares their screen and walks teammates through the changes that are being made
+
+walk-throughs are a great way to trigger ideas and get oyur team comfrotable with changes
+
+circulate relevant design documents and code in advance and ask your teammates to take a look before the walk-through meeting, give them adecuate time - dont schedule the walk-through for an hour later
+
+statr a walk-through by giving background about the change
+
+a quick review of the deisgn document might be warrarented - then shaare your screen and navigate the code in your IDE as you narrat
+
+attendees should save their comments for the review itself 
+
+walktrhoughs are meant to help your team undersnad why a change is being propsoed and ti give them a good mental model for working through the code review in detail by themselves
+
+### Don't get attached
+
+keep some emotional distance-the review is of the code, not of you and its not even really your code; the whole team will own the code in the future
+
+### Have empathy but dont tolerate rudness
+
+give reviewers the benefit of the doubt but let them know if their comments seem off base or rude
+
+### Be proactive
+
+dont be shy about asking others to review your code
+
+reviewers are often bombarded with code review and ticket notifications, so review can get lost on high velocity projects
+
+if you dont get any feedback, check in with the team
+
+when you do receive comments, be responsive
+
+you dont want your code review to drag on for weeks
+
+everyone's memory fades; the faster you respond, the faster youll get responses
+
+Merge your changes proptly after you receive approval
+
+leaving code review dangling is inconsiderate - others might be waiting for your changes ot want to change code once you merge.
+
+## Reviewing code
+
+Good reviewrs break a review equest into several stages
+
+Triage the request to determine its urgency and complexity, and set aside time to review the change
+
+begin your review by reading code and asking questions to understand the context of the change
+
+then give feedback and drive the review to a conclusion
+
+combining this recipe will take a few best praictces will substantially improve the reviews
+
+### Triage Review Requests
+
+Your work as a reviewer begins when you get a review notification
+
+start by triaging the review request
+
+some changes are critical and need to be reviewed right away
+
+most changes, however, are less pressing
+
+if the urgency is unclear, ask the sbmitter
+
+You dont need to review every change
+
+focus on the changes that you can learn from adn those that touch code you are familiar with
+
+### Block off time for reviews
+
+Dont drop everything you're doing every time a review requests arrives
+
+Left unchecked, review interuptions can torpedo your proudctivitiy
+
+block off code review time in your calendar - scheduled review time makes it easy for your to continue on your other tasks, knowing youll have focused review time later
+
+### Understand the change
+
+Dont begina review by leaving comments
+
+first read and ask questiosn
+
+code reviews are most valuable if the review really takes the time to understand the propsped changes
+
+aim to understand why a change is being made, how code used to behave and how code behaves after the change
+
+consider long-term implications of the API design, data strcutrues and other key decisions
+
+### Give comprehensive feedback
+
+Give feedback o a change's correctness, implenetation, maintability, legibility, and security implications
+
+point out code that violates style guides, is heard to read, or is confusing, read tests and look for bugs to verify code correctness
+
+Comments should be polite and include both a "what" and a "why"
+
+example:
+
+" check that `port` is >= zero and raise an InvalidArgumentException if not. Ports cant be negative"
+
+### Acknoledge the good stuff
+
+if you learn something new from reading the code, mention that to the author
+
+if a refactoring cleans up problematic areas of code or new test feel lik ehtey make future changes less risky, recognize these things with a positive encourgaing comment
+
+Example:
+"this is an interesting change. I totally get wanting to migrate the queing code to a third party library, but im pretty averse to adding a new dependncy; the existing code is simple and does what it needs to do. definitely speak up if im misunderstanding the motivation; happy to talk more"
+
+### Distinguish between issues, suggestions, and Nitpicks
+
+Major issues need more attention than neutral suggestions and superfical nitpicks
+
+dont shy away from stylistic feedback, but make it clear that you're nitpicking
+
+a "nit" prefix prepended to the comment is customary
+
+example:
+"
+Nit: Double space.
+Nit: Here and throught, use snake_case for methods and PascalCase for classes
+Nit: Method name is weird to me. what about maybeRetry( int threshold)?
+"
+
+if you find yourself nitpicking ostyle often, ask wheterh the project has adequate linting tools set up
+
+ideally tooling should do this work for you
+
+call out suggestions that seem better to you but arent require for approvale by prefixing feddback with "optional"
+
+distinguish suggestions from changes you really want to see made; otherwise it wont necessarily be clear to the submitter
+
+### Dont rubber stamp reviews
+
+rubber stamping a review is hearmful - teammates will think you know what the change is and why its appliead: you might be held respoonsible later
+
+the tempation to rubber-stamp a request might be a single that code change is too big for one request
+
+dont be afriad to ask your teammates to split up larger code reviews into small sequential chunks
+
+### Dont Limit yourself to Web based review tools
+
+Dont forget that code reviews are just code
+
+you can check out or download the propsed changes and play with them locally
+
+a local code checkout will let you examine the propsed changes in your IDE
+
+large changes are hard to naviagate in a web interface
+
+IDEs and desktop-based review tools let you more easily browse the changes
+
+local code is also runnable - you can create you own tests to verifiy things work as expected
+
+### Dont forget to reveiw tests
+
+Tests should be reviewed just like the rest of the code
+
+it is often useful to start a review by reading the tests; they illustrate how the code is used and whats expected
+
+### Drive to a conclusion
+
+help review submitteers get their code approved quickly
+
+dont insist on perfection, dont expand the scope of the change, clearly describe which comments are critical and dont let disagreements fester
+
+In general reviewers should favor approviing a CL once it is in a state where it definitely imprpoves the overall code health of the system being worked on, even if the CL isnt perfect
+
+# Chapter 8: Deliivering Software
+
