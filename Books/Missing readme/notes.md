@@ -1819,11 +1819,298 @@ branching strategies detemine where code changes are commited and how release co
 
 the right branching strategy will make software delivery esy and predictable, while the wrong strategy will turn delivery inot a fight against the process itself
 
-## BRanching Strategies
+## Branching Strategies
 
 release packages are built from code in version control systems
 
 trunk sometimes main or mainline- contains the main version of a codebase with a history of changes
 
 branches are 'cut' from trunk to alter the code; multiple branches allow developers to work in parallel and merge their changes into trunk when ready
+
+The two main families of brnaching strategies are trunk-based and feature branch-based development
+
+in trunk-based development, all developers work off of trunk
+
+Branches are used for a single small feature, bug fix, or update
+
+a trunk-based development strategy can be a feature branch is created in feature-1 and merged back to trunk
+
+The bug-1 btanch is created to fix a bug - a release has also been cut and developers have decided to cherry-pick the bug fix into the 1.0 release
+
+Trunk based development works best when brnaches are merged back to trunk quickly, in a matter of days if not hours and not shared between developers
+
+frequently merging is known as continious integration(CI)
+
+CI reduces risk because changes quickly propagate to all developers making them less likely to diverge from each other significantly
+
+To prevent breakages, fast automated tests are run to validate that tests pass before a branch is merged into trunk
+
+Teams often have explixit processes for reacting to a break trunk; the general expectation is that trunk should always be okay to release and releases tend to faily frequent
+
+In feature branch-based developement, many developers simultaneously work on long-lived feature branches, each associated with a feature in the product.
+
+because feature branches are long lived, developers need to rebase-to pull in changes from trunk-so the feature branch doenst diverge too far
+
+branches are kept stable by controlling when the rebasing occurs
+
+when a release is being prepared, feature branches are pulled into the release branch
+
+rlease branches are tested, while feature branches may continue to evolve
+
+feature branch-based development is common when trunk is too unstable to release to users and developers want to avoid entering  feature freeze where feature commmits are abnned while trunk is stabilized
+
+feature branch-based development is common in shrink-wrapped software where different custoemers run different versions; service oriented systems usually use trunk-based development strategies
+
+the most popular feature branch approach is called Gitflow (by Vincent Driesen)
+
+Gitflow uses a develop branch, hotfix branch, and release branch
+
+the development branch is used as the main brnach and that feature branches merge and rebase with
+
+release branches are cut from the develop branch when a release is prepared
+
+development continues on feature branches during release stabilization
+
+releases are stabilized and merged into trunk
+
+trunk is always considered to be production-ready, since it only ever contains stabilized releases
+
+if trunk is unstable because it contains critical bugs, the bugs are addressed immediately with hotfixes instead of waiting for the normal release cadence
+
+Hotfixes are applied to the hotfix branch and merged into both trunk and the develop branch
+
+Branching strategies define when changes go out, set testing expectations, define your bugfix options and determine the number of versions your changes must be ported to
+
+Stick with a trunk-based brnaching strategy unless you truly need long-lived feature branches - managing features branches gets complicated.
+
+## Build Phase
+
+Building softeare takes many steps: resolving and linking dependencies, running linters, compiling, testing, and fianlly, packing the software
+
+in this section, we'll focus on a builds output packages
+
+Packages are built for each release, so software doesnt have to be built on each machine it runs on
+
+Builds produce multiple pakcages if the software targets more than one platform or environment
+
+Builds often produce packages for different operating systems, CPU architectures, or language runtimes
+
+You've probably come across Linux pakcage names like this 
+
+- mysql-server-8.0_8.0.21-1-amd64.deb
+- mysql-server-8.0_8.0.21-1-amd64.deb
+- mysql-server-8.0_8.0.21-1_1386.deb
+
+packages can contain binary or source code dependnceis, configurations, release notes, documentation, media, licenses, checksums, and even virtual machine images.
+
+Packaging determines what software gets released
+
+bad packaging makes software difficult to deply and debug - to avoid headaches, always version packages and split packages by resource type.
+
+### Version Packages
+
+Packages should be versioned and assigned a unique identifier
+
+unique identifiers help operators and developers tie a running app,ication to specific source code, feature sets, and documentations
+
+without a version, you dont know how a pakcage will behave
+
+### Package Different Resource Separaetely
+
+Configuration, schemas, images, and language packs(translastions) are all part of sfotware
+
+different resouces have different release cadnces, different build times and different testing and verification needs
+
+different resources should be packaged separately so they can be modified without having to rebuild the entire software package
+
+## Release Phase
+
+Release publication makes software available to users and enables deployment, the next phase of delivery
+
+Release processes vary based on the type and size of sofrware and user sophistication
+
+Release managerment is the art of publishing stable, well documeneted software at a predictable cadence
+
+proper release management makes for satisfied customers 
+
+complex software with multiple teams commiting to it will often have a release manager role
+
+release managers coordinate the process-tests,feature validation, security procedures, documentation and so on
+
+take wownership of your softwares publication by releasing immutable packages frequently
+
+be clear about release schedules and publish changelogs and release notes along with new release
+
+### Dont throw releases over the fence
+
+Even if your organization has a release engineering or operations team, you should know how and when your software ends up in front of users
+
+release and operations teams can be of great help in settin gup tools, advising on best practices, and automating drudgery and bookkeeping, but they do not know your code as well as you do
+
+ultimately, its your responsibility to ensure the software is appropriately deployed and well-functioning
+
+make sure your code works in tests environments, keep track of relase scheudles, understand available options and choose the right approach for your application
+
+### Publish packages to a release repository
+
+Release packages are usually published to a package repository or simply tagged and hosed in a VCS like Git
+
+though either practice can work, we encourage you publish release packages to a purpose-built-package repository
+
+Many companies also stage releases and publish internal softare in private repositiroes
+
+package repositories make relase artifacts (another word for a deployable package) avaiable for deployment
+
+repositioes also act as archives-previous release artifcacts are accessible for debugging, rollback, and phase deployments
+
+Version control systems like Git can be used as a relase repository
+
+Version control systems work as release repositories but they aren built for this purpose - VCS dont have as many useful search and deployment features
+
+### Keep releases immutable
+
+Once published, never change or overwrite a release package
+
+immutable release guarantee that all application instances running a specific version will be identical
+
+### Release Frequently
+
+realses as frequently as possible
+
+slow release cycles give a false sense of security: long periods between release feel like ample time to test changes - in practice rapid release cycles produce more stable software that is easier to repait when bugs are found
+
+### Be transparent about release scheudles
+
+Release scheudles define how frquently software is relased
+
+some projects have a predictable time-based shceudle, releaseing every quater or year
+
+other projects release when specific features are completed or simply when they feel like it
+
+internal systems often publish release on every commit
+
+regardless of relase style, be clea about release schedules
+
+publish schedules and notify users when new releases are published
+
+### Publish changelogs and release notes
+
+changelogs and relase notes help your users and your support team understadn what is included in a relase
+
+changelogs list every tikcket that was fixed or commit that was made in a release
+
+to automate changelog creation, track changes in acommit messages or issue trakcer labels
+
+release notes are a summary of the new feauteres and bug fixed contained in a relase
+
+changelog are primarily read by the support and developement team - while relase notes are for the users
+
+## Deployment phase
+
+deploying software is the act of getting software packages where they need to be to run
+
+### Automate Deployments
+
+Deploy software using scripts rather than manual steps
+
+automated deployments are more predictable because script behavior is reproducible and version controlled
+
+operators will be able to reason about deployment behavior when things go wrong
+
+Highly evoled automation leads to continious delivery
+
+with continuous delivery, humans are completely removed from deployment
+
+packaging, testing, realse, deployment and even rollout are all automated
+
+deployments run as frequently as desired - hourly, daily or continuous
+
+with continious delivery, teams can deliver features to their users quickly and get feedback from them
+
+successful continious delivery requires a commitement to automated testings, automated tooling, and a customer base that is able to absorb rapid changes
+
+off-the-shelf solutions like Puppet, Salt, Ansible, and Terraform integrate with exsiting tooling and are purpose built for deployment automation
+
+### Make deployments Atomic
+
+A partially deployed application can cause future deployments to fail if sctips assume installation locations are empty
+
+to avoid failed partial deployments, make deployments all or nothing (atomic)
+
+a partially deployed install should never partially replace the previous successful install and it should be possible to install the same packkahe to the same machine multiple times
+
+the easiest way to make deployments atomic is by installing software in a differnt location than the old versionl dont overwrite anything
+
+
+### Deploy Applications Indepently
+
+Deployment ordering, when one application's deployment requires the upfrade of another application first, is a common problem in software with many applications or service thaat communiacate with each other
+
+build applications that deploy independently.
+
+When a dpenendency is unavaidable, user the roll out techniqe to safely deploy out of order
+
+deploying with you changes turned off and turning them on in a specific order later is faster and simpler than enforcing deployment ordering
+
+## Rollout Phase
+
+Once the new code is deployed, you can turn it on (roll it out)
+
+switiching everything to the new code at once is risky
+
+no amount of testing will eliminate the potential for bugs and rolling out code to all users at once can break things for everyone simultaneously
+
+instead its best to roll changes out gradually and monitor health metrcis
+
+there are many roullout strategies: feature flags, circuit breaksers, dark launches, canary deployemtns, and blue-green deployments
+
+feature-flags allow you to control what percentage of users receive on code path versus another
+
+Circuit breakers automatically switch doe paths when theres trouble
+
+dark launches, canary deployments and blue-green deployments let you run multiple deployed versions of your software simultaneously
+
+Operators and developers must support multiple code versions simultaneously and keep track of whcih features are toggled on or off - keep fancy rollout strategies in your toolbox for bigger changes
+
+### Monitor Rollouts
+
+Monitor health metrics such as error rates, response times and resource consumption as new code is activiated
+
+Detemine ahead of time what the general health metrics are
+
+think about what you expect to see in metrics or logs that would tell you that your change is functioning correctly
+
+verify that what you expected to happen is actually happening
+
+remeber your job is not done when code is commited, and its not done when the code is rolled out - hold the champgane until metrics and logs and showing your changes running successfully
+
+### Ramp up with feature flags
+
+Feature flags (sometimes called featured toggles or code splits) allow developers to control when new code is released to useres
+
+code is wrapped in an 'if' statement' that checks a falg (set by static configuration or from a dynamic service) to determine which branch code should be run
+
+feature falgs can be on-off booleans, allow lists, percentage based ramps, or even small functions
+
+a boolean will toggel the feature for all users
+
+allow lists turn on features for specific users
+
+percent-based ramps allow developers to slwoly turn on the feature for larger swatchs of users
+
+it is common to start with company owned test accounts and then ramp to a single customer before doing an incremental percent-based release
+
+you code must be forward and backward compatible - state doesnt go way when a feature is toggled off
+
+Make sure to clean up old feature flags that are fully ramped or no longer in user
+
+code littered with feature flags is difficult to reason about and can ven cause bugs
+
+create tickets to remove old flags in the future
+
+like refactoring, do cleanup incrementally and opportunistically
+
+featurue flafs are sometime sused for A/B testing 
+
+### Protect code with circuit breakers
 
