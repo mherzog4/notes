@@ -1781,3 +1781,49 @@ In general reviewers should favor approviing a CL once it is in a state where it
 
 # Chapter 8: Deliivering Software
 
+Understanding the delivery process will help you troubleshoot problems and control when changes are made
+
+you might not participate in the process directly - it might be automated or performed by release engineers-but the steps between git commit and live traffic should not be a mystery
+
+delivery consists of steps such ass release, deployment and rolloout
+
+## Software delivery phases
+
+We refer to four software delivery phases, namely build, release, deployment and rollout
+
+software must first be built in ot packages
+
+packages should be immutable and versioned
+
+packages must then be released
+
+release notes and changelogs are updated and packages are published to a centralized repository
+
+published release artificats must be deployed to preproduction and production environments
+
+deployed software is not yet accessible to users-its just been installed
+
+once deployed, software is rolled out by shifting users to the new software
+
+once rollout is complete software is delivered
+
+build -> release -> deploy -> rollout
+
+The delivery process is part of a larger product developmenet cycle
+
+after rollout, feedback is gathered, bugs are detected and new product requirements are collected
+
+feature development begins anew and eventually the next build is kicked off
+
+branching strategies detemine where code changes are commited and how release code is maineted
+
+the right branching strategy will make software delivery esy and predictable, while the wrong strategy will turn delivery inot a fight against the process itself
+
+## BRanching Strategies
+
+release packages are built from code in version control systems
+
+trunk sometimes main or mainline- contains the main version of a codebase with a history of changes
+
+branches are 'cut' from trunk to alter the code; multiple branches allow developers to work in parallel and merge their changes into trunk when ready
+
