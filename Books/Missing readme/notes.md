@@ -2114,3 +2114,58 @@ featurue flafs are sometime sused for A/B testing
 
 ### Protect code with circuit breakers
 
+Circuit breakers are a special kind of featre flag that are controlled by operational events like a psike in latency or exceptions
+
+circuit breaksers have several unique charactistcs: they 're binary, they're permanent, and they'er automated
+
+circuit breaksers are used to protect against performance degration
+
+circuit breakers also protect against permanent damage
+
+applications that take irreversible action such as sending an email or transfering money out of a bank account, use circuit breakers when its unclear whether to proceed
+
+### Ramp servuce versions in parallel
+
+it is possible to deploy new versions of web services alongside old versions
+
+packages can be co-located on the same machine or deployed on entirely new hardware
+
+parallel deployments let you ramp up slowly to mitigate risk and roll back fast if things go wrong
+
+canary deployments are used for services that process a lot of traffic and are deployed to a large number of instances
+
+ a new application version is first deployed to a limted set of machines
+
+ a small user subset is routed to the canary version
+
+ blue-green deployments run two different versions of the application: one active and one passive
+
+ the new version is deployed to the passive environment; when it is ready, traffic is flipped to the new version and it becomes active while the previos version becomes passive
+
+ blue-green deployments are useful when traffic cannot be easily subset or when running different versions in paralellel is not feasinle
+
+ unlike canaries, each environemnt must be able to handle 100 percent of user traffic
+
+ ## Launch in dark mode
+
+ Feature flags, canary deployments, and blue-green release roll out code to a subset of users and provide mititgation mechanism whenp problems arisise
+
+ dark launches, sometimes called traffic shadowing, expose new code to real-life traffic wihtout making it visible to end users at all even if the dark code is bad, no user is impacted
+
+ dark launches help developers and operators learn about their softwatre in production with minimal user impact
+
+ take advantage of dark alunches whenever you are relasing complex changes - this pattern is especailly useful for validating ststem migrations
+
+ Trafic to the dark system shuld be excluded from user analytics, and side effects like double billing have to be avoided
+
+ requests can be marked for exclusion and by modifying headers to highlight shadowed traffic
+ 
+ # Chapter 9: Going on call
+
+ On-call engineers are the first line of defense for any unplanned work, be it production issues or ad hoc support requests
+
+ effective on call engeineers are prized by their teammates and managers, and they grow quickly from the relationship-building and learning opportunties that on-call routations provide
+
+ ## How on call works
+
+ 
