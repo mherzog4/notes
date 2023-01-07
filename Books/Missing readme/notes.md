@@ -2168,4 +2168,254 @@ canary deployments are used for services that process a lot of traffic and are d
 
  ## How on call works
 
+ On call developers rotate based on a scheudle
+
+ the lenght of a rotaition can be as short as a day, thought more often its a week or two
+
+ Most of an on-calls time is spent fielding ad hoc support requests such as bug reports, questions about their team's software behaves, and usage questions
+
+ on-calls triage these requests and repsond to the most urgent
+
+ An incident is reported to on-call by an alert from an automated monitoring system or by a support engineer who manually observes a problem
+
+ on-call develoeprs must traige, mititgate and resolve incidents
+
+ all on-call rotations should begine and end with a handoff
+
+ the previous on-call developer summarizes any current operation incidents and provides context for any open tasks to the next on call developer
+
+ ## Important on call skills
+
+ ### Make yourself available
+
+ an oncalls job is to respond to requests and alerts
+
+ dont ignore request or try to hide - expect to be interrupted and accept that you cant do as much deep work while on call
+
+ figure out what on-call expectations are and dont get caught in a situation where you cant respond
+
+ for many requests its perfectably acceptable toacknowledge that you've receieved the query and respond with an approximate time when you should be able to look at the probelm
+
+ "I am currently assisting someone else; can i get back to you in 15 minutes?"
+
+ ### Pay attention
+
+ infroamtion relevant to on-call works comes in through many channles, chat, email phone calls, text messages, tickets, log metrics and even meetings
+
+ pay attention to these channels so you'll have context when debugging and troubleshooting
+
+ create a list of resources that you can rely on in an emergency; direct links to critical dashboards and runbooks for your services, instructions for accessing logs, important chat rooms and troubleshooting guides
+
+ a separate "on-call" bookmark folder that you keep-up-to-daete will come in handy
+
+ ### Prioritize work
+
+ Work on the highest-priority tasks first
+
+ as tasks are finished or become blocked, work you way down the list from highest to lowest priority
+
+ quickly triage the interruption: either set is aside or begin working on it if its an emergency
+
+ if the new request is higher priority than your current task but isnt critical, try to finish your current task or at least get it to a good stopping point before context switching
+
+ if you cant tell how urgen a request is, ask what the impact of the reqeust is
+
+ the impact will determine the priorty
+
+ if you disagree with the requestor about an issues prioritaation, discuss it with your manager
+
+ On-call work is categorized by priority: P0, P1, P2, P3 and so on
+
+ P1 - critical impact
+
+ P2 - High impact
+
+ P3 - Medium Impact
+
+ P4 - Low impact
+
+ Service level indicators (SLIs) such as error rate, request latency and requests per second are the easiers ways to see if an application is healthy
+
+ Service level objectives (SLOs) define SLI targets for healthy application behavior
+
+ if error rate is an SLI for an application an SLO Might be a request error less than 0.001 percent
+
+ Servie Level Agreements (SLAs) are agreements about what happens when an SLO is missed
+
+ Learn the SLIs, SLOs, and SLAs for your applications - 
+ 
+ SLIs will point you to the most imprtant metrics - SLOs and SLAs will helop you prioritize Incidents
+
+ ### Communicate clearly
+
+ Things happen quickly, and miscommunication can cause major problems
+
+ To communicate clearly, be polite, driect, resposnsives and thorough
+
+ Responds to requests quicky - repsonses dont have to be solutions
+
+ tell the requesto that you've seen their request and make sure you understand the problem
+
+ Post status updates periodically - updates should include what you've found since your last update and what you'fe planning on doing next
+
+ ### Track your work
+
+ Write down what you're doing as you work
+
+ each item that you work on while on-call should be in an issue tracker ot he teams on call log
+
+ tracking progress reminds you where you left off when you come back to a ticker after an interruption
+
+ the next on call will be able to see the state of ongoing work by reading your issues and anyone you ask for help can read the log to catch up
+
+ Logged questions and incidents also create a searchable knowledge base that future on-calls can refer to
+
+ Always include timestamps in your notes - timestamps help operations coorelate events across the system when debugging issues
+
+ ## Handling Incidents
+ Resolving the problem is important, but in a critical incident, the top objective is to mitigate the impact of the problem and restove services
+
+ incident reponse is broken into these 5 steps:
+
+ - Triage: engineers must find the problem, decide its severitiy, and determine who can fix it
+
+ - Coordination: Teams must be notified of the issue - if the on call cant fix the problems themselves, they must alert those who can
+
+ - Mitigation: Engineers must get things stables as quickly as possible - mitagiont is not a long term fix; you are just trying to "stop the bleeding"
+
+ problems can be mititgated by rolling back a release, fialing over to another enviroment, turning off misbehaving features or adding hardware resources
+ 
+ - resolution: After the problem is mirigated, enginers have some time to breather, think and work toward a resoluton
+
+ enginerrs continue to investigate the problem to determine and address underlying issues
+
+ the incident is resolved once the immediate problem has been fixed
+
+ - Follow-up: An investigation is conducted into the root cause - why it happened in the first place
+
+ if the incident was sever, a formal postmortem or retrosepctve is condcuted
+
+ follow-up taks are created to prevent the roout cause from happening again
+
+ ### Triage
+
+ Determine a problems priority by looking at its impact: How many people is it affecting and how detrimental is it
+
+ use your companies prioritization categories and SLO/SLA deefintions to priotize the issue with the help of SLIs and the metric that triggered the alert
+
+ Triage is not the time to prove you can figure things out on your own; time is of the essence
+
+ ### Coordination
+
+ Coordination starts by figuring out who's in charge - fow lower priotity incidents, the on-call is inchage & for larger icniddnets an incident commander will take charge
+
+ once someone takes shart, all relevant parties must be notified of the incident 
+
+ contact everyone needed to mititage or resolve the problem
+
+ track communication written form in a central location: a ticketing ststem or chat
+
+ communication helps everyone track progress, saves you from constantly answering status questiosn, prevents duplicative work, and enables others to provide helpful suggestions
+
+ share both your obecervations and your actions and state what you are about to do before you do it
+
+ communicate you work even if you are working alone
+
+ ### Mitigation
+
+ Your goal in the mitigation phase is to reduce the problem's impact
+
+ mitigation isnt about fixing the problem; its about reducing its sevirty
+
+ incidents are commonly mititgaed by rolling backa  software relases to a "last known good" version or by shifting traffic away from the problem
+
+ Ideally, the  software you're working with will have a runbook for the problem
+
+ runbooks are predefined step-by-step instructions to mitigate common problems and perform actions such as restarts and rollbacks
+
+ ### Reoslution
+
+ Once mitagiont is complete, the incident is no longer an emergency
+
+ you can take time to troubleshoot and resolve the underlying issues
+
+ during the resolutoin phase,s focus on the immeditate technical problems
+
+ Focus on what is needed to recover without temporary measures put in place during  mitigation
+
+ set asie larger technical and process problems for the follow-up phase
+
+ Examine the problem, make a diagnosis, and then test and treat
+
+ if the treatmenet is successful, the problem is curedl if not, you reexamine and start again
+
+ You goal during resolution is to understand the symptopns and the problem and try to make it repoducicble
+
+ use all the operational data at your dispable, metrics, logs, stakc traces, heap dumps, change notitiations, etc
+
+ once you have a clear view of the symptoms, diagnoes the problem by looking for the causes
+
+ diagnossis is a searhc and like any search you can use search algorithms to troubleshoot
+
+ Next, test you theory
+
+ testing inst treamtnet- you're fixing the problem yet
+
+ instead you see if you can control the bad behavior
+
+ can you reproduce it
+
+ can you change a configuration to make the rpoblem go away?
+
+ if so you've located the casues
+
+ if not you've eleminated one potential casues- go back, reexamine and formaulate a new diagnosis to test
+
+ after a succseful test, you can decide on the best course of treatment
+
+ perhaps a configuration change is all thats needed
+
+ often a bug fix will need to be written, tested and applied
+
+ the goal is to learn in the incident and prevent it from happening again
+
+ A postmortem document is written and recived, and tasks are opene to prevent recurrence
+
+ One good example is Atlassians postmortem template
+
+ A critical section of any postmortem docuement is the root-cause analysis section
+
+ root-cause analysis is performed using the 5 whys
+
+ this technique is pretty simple: keeping asky Why - take a problem ans ask why it happened
+
+ Good postmortem meetings also keep "solutioning" separate the review meeting
+
+ Solution-figuring out how to solve a problem takes a long time and distracts from the purpose of the meeting
+
+ ## Providing Support
+
+ When on call engineers arent dealing with incidents, they spend time handling support requests
+ these request come both from within the organziation and from external customers and they run the gamut from simple "how does this work" to difficult troubleshooting questions
+
+ most requests are bug reports, questions about business logic or technical questions about to use your software
+
+ ## Dont be a hero
+
+ there is an extereme we want to warn you about: doing too much
+
+ Trying to be the hero can lead to burn out
+
+ # Chapter 10: Technical Design Process
+
+ The technical design process helps everyone agree on a design for a large change
+
+ Design wrok is broken into two activities: Solitary deep thought work and collaboritve group discussion
+
+ In the beginning err on the side of caution and ask you tech lead or manager for guidance and share your design widely 
+
+ done correclty, participating in and leading technical design work is reawrding and valuable
+
+ ## The Technical Design process cone
+
  
