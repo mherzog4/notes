@@ -2416,6 +2416,363 @@ canary deployments are used for services that process a lot of traffic and are d
 
  done correclty, participating in and leading technical design work is reawrding and valuable
 
- ## The Technical Design process cone
+## The Technical Design process cone
 
- xyz
+ With every iteration, the design document becomes clear and more detailed
+
+ the authors confidence in the solution grows, as does the body of work behidn the design-experiements, proofs of concets and beanch marks
+
+ as you reseearch, you bounce back and forth between indepenent work and discussion witha  small group of teammates or experts in the domain you're researching
+
+ you brainstorm and experiement
+
+ the goal is to learn - to increase certainity and clarity
+
+ eventually your research, experimentaion and brainstorming leads you to a preferred design
+
+ after sanity checking it with those you've been working with, you write a design document
+
+ as you write, you discover more unkowns
+
+ you create a few small protoypes to validate your designs, answer questions and help choose between viable alternative approachs
+
+ you conduct more research and ask experts for their input
+
+ you flesh out a draft of the design document
+
+ After your design is approved, implementation begins but design isnt over - implementation will surface more suprises
+
+ you must update your design doucmenet if any large deviations are made as you and your team code
+
+ ## Thinking about Design
+
+ the base of the desgin funnel begins with exploration
+
+ you need to understand the problem space and requirements before you can develop a design
+
+ exploration requires thing, research, experimentation, and discussion
+
+ ### Define the problem
+
+ your frist task is to define and understand the problem (or problems) that you're trying to solve
+
+ you need to understand the boundaries of the problem to know how to solve it and to avoid building the wrong thing
+
+ start by asking stakeholders what they perceive the problem to be
+
+ these stakeholders may be your manager, teammates, product managers or tech leads
+
+ not everyone will peceive the problem the sam way
+
+ restate the problem in your own words back to the stakeholders - ask if your understanding matches theirs 
+
+ if there is more than one problem ask which problems are the highest priority
+
+ "What happens if we dont solve this problem?" is a powerful question
+
+ when the stakeholder answers, ask if the outcome is acceptable
+
+ you'll find many problems dont actually need to be solved
+
+ once you've collected notes on the problem from varius stakeholders, try to synthesize the feedback into a clear problem statment
+
+ pay particular attention to the scope of the problem - whats included and what could be included but isnt
+
+ write and circulate the problement statement - both whats in and out of scope-to vallidate your understanding and get feedback
+
+ The refined problem description will lead to a very different solution than the original
+
+ ### Do your research
+
+ COnsider relevant research, alternative solutions and trade-offs
+
+ the design you come up with should not be your first idea but your best
+
+ there is a ton of resources online - look at how others solved sumular problems
+
+ industry conferences are another resource to check - slide decks & recordings are usually posted online
+
+ talk to experts in the problem space that you're exploring - ask in your company for input, but dont limit yourself to your coworkers
+
+ finally, think critically - not everything you read online is a good idea
+
+ ### Conduct experiments
+
+ expirement with your ideas by writing draft code and running tests
+
+ write draft APIs and partial implementations
+
+ run performance tests or even A/B tests to learn how systems and users behave
+
+ circulate your prototpes with your team to get feedback
+
+ Don't write tests or spend time polishing code - you're tring to learn as much as you can as quickly as possible
+
+ ### Give it time
+
+ give yourself large chunks of time, take breaks, change scenery and be patient
+
+ design requires deep thought - you cant do design in 15 minute incremenets - give yourself several hours to focuse
+
+ figure out when you are most productive to sustain deep concentration and block off the time on your calendar
+
+ Your brian needs time to relax
+
+ take breaks and give yourself room to breather
+
+ allow your mind to relax and wander 
+
+ design is  a24hr a day gig so be patient - your brain is alaways mulling ideas - thoughts will come to you randomly
+
+ desing spikes are a good way to manage the tension between creative work and predictable delivery
+
+ a spike is an extrement programming term for a time-bound investigation
+
+ allocating a spike task in a sprint will give you space to go deep thought without having other tasks to worry about 
+
+ ## Writing Design Documents
+
+ Design documents are a scalable way to clearly communicare your ideas
+
+ to create useful design documents, focus on the most consequent changes, keep the goal and audience in mind, practice writing and keep your docuements up-to-date
+
+ ### Document consequentail changes
+
+ Your org may have its own guidelines for this; if they dont use these three crtieria to decide if a design document is required:
+
+ - The project will require at least a month of engineering work
+ - The change will have long-lasting implications with regard to extending and mantianing the software
+- the change will significantly impact other teams
+
+
+going through the process of writing the design document and getting it reviewed will give concerns a change to surface and get addressed
+
+ a review will also ensure the wheol team understand what is being added and why, which will help avoud suprises down the line
+
+ changes that have broad reach often require code reviews or refactoring and other designs might be impacted - your design document notifies teams of your forthcoming changes
+
+ ### Know why you're writing
+
+ A design document is a tool to help you think, to get feedback, to keep your team informaed, to ramp up new engineers and to drive project planning
+
+ Spreading design knowledge will help others maintain an accurate mental model of how the system works
+
+ the team will make better design and implementation decisions later
+
+ design documents are particuarlarly helpful to new engineers to the team
+
+ without design documents, engineers find themselves crawling thoguh code, creating box diagrams, and teasing knowledge out of senior engineers to understand whats going on
+
+ finally managers and teach leads use design docuements for prototype planning
+
+ many design docs include milesones or implementation steps needed to complete the project
+
+ ### Keep desgin documents up-to-date
+
+ once you begin implementation, design docs morph from propsoals into documents that describe how software is implemented: they are living documents
+
+ two comoon pitfualls occur duirng the transition from propsoal to documenetation
+
+ the first pitfall is that the proposal document is abonded and never updated again
+
+ implementations diverge and the document is misleading to future users
+
+ the scond pitfall is that the document is updated and the histrou of the proposal is lost
+
+ future developers cant see discussions that led to design decisions and might repeat mistakes of the past
+
+ version control your design docuements - a good trick is to keep design document version controlled in the same repo as code
+
+ code reviews can then be used as a review for design comments
+
+ ## Using a Design Document Template
+
+ - Introduction
+ - Current state and context
+ - Motivation for change
+ - requirements
+ - potential solutions
+ - proposed solution
+ - design and architecutre
+    - system diagram
+    - UI/UX changes
+    - code changes
+    - API changes
+    - Persistence layer changes
+- test plan
+- rollout plan
+- unresolved questions
+- appendix
+
+### Introduction
+
+provide a paragraph long summary of the propsed changes and some guidance that points different readers-security engineers, operations, data scientists-to relevant sections
+
+### Current state and contenxt
+
+describe the architecture that is being modified and define terminology 
+
+explain what systems with nonobious names do
+
+### Motivation for change
+
+Describe the benefits that will result from this effor
+
+tie these benfits to business needs: "By reducing memory by 50%, we can address the most common objection to installing our software, leading to greater adoption."
+
+### Requirements
+
+List requirements that an acceptable solution must meet - these can be broken out into sections such as the following:
+
+- User-facing requiresments
+    these are usally the bulk of the requiresments - they define the nature of the change from a user perspective
+- technical requirements
+    these include hard requirements on the solution that must be met
+
+    technical requirments are usally casued by interperability concers or strinct internal guidelines - service level objectives can als be defined here
+- Secuiry and compliance requirements
+    Though thse might be seen as user-facing or technical requirements, they are often brought out separately to esnure that security needs are explicitly discussed
+
+    data retention and access polies are often convered
+
+- other 
+    this can included critical deadlines, budgets, and other important considerations
+
+### Potential solutions
+
+writing this section is as much a tool for you as the read; its meant to force you to think through not just your first idea but alternative ideas and their trade-offs
+
+Desribe reasonable alternative approaches and why you dismissed them
+
+describing potential solutons will preemptively address "why not do x?" comments
+
+### Propossed solution
+
+this description goes into more detail than the very brief description in the introduction and may have diagrams that highlight changes
+
+### Design and Architecture
+
+Highlight implmentation, details of itnerest, such as key libraries and frameworks being leverage, implementation patterns and any departures from common company practices
+
+design and architecture should include block diagrams of componenents and call and data flow, UI, code, and shcema mock-ups
+
+#### System Diagram
+
+include digram that shows the main components and how they intereact
+
+explain what is changing by highlighting new and change componentns or creating before and after diagrams
+
+#### UI/UX changes
+
+create mock-ups if your project chnages user interfaces - use the mocks to walk through a user's activity flow
+
+The goal is to think thoguht the xperience of the people who will interact with your change
+
+#### Code changes
+
+highlight what, how and when exsiting code will need to change - describe any new abstractions that need to be introduced
+
+#### API changes
+
+Discuss backward/forward compatibility and versioning
+
+remeber to include error handing in your API proposal: it should respond with useful infromation when encoutering malformed inputs, contraints, violations and unexpected internal errors or execptions
+
+#### Peristence Layer changes
+
+Discuss new databases, file and filesystem layouts, seach indicies and data transformation pipelines
+
+include all schema changes and notes on their backward capitibility
+
+### Test plan
+
+Do not define every test in advance; rather explain how you plan to verify your changes
+
+DIscuss sourcing or generating test data, highlight use cases that need to be covered, discuss librarires and testing stategies you expect to leverage and explain how you will validate that security requriements are met
+
+### Rollout plan
+
+document the feature flags you will need to put in place to control the rollout and whether you will use deployment patters
+
+think about how you would find out if changes are not working and how you will roll back if problems aer discovered
+
+### Unresolved Questions
+
+explictly list presing questions that have not been answered in the design
+
+this is a good way to solicit input from your readers and to state your "known unknowns"
+
+### Appendix
+
+Put extra details of interest in the appendix
+
+## Collaborating on Design
+
+Interpreting and condensing feedback into a meaningful desing isnt easy
+
+collaborate on design by wokring within your teams design process, communicating early and often to avoid suprises and using design disuccsions to brain storm
+
+### Understandin your team's design review process
+
+design reviews notifiy architects of large upcoming changes and give leads a chance to provide feedback
+
+architectural reviews are more formal, heavier-weight processes
+
+designs must be approved by outside stakeholders such as operations and security memebers
+
+a design document is required and there might be mutliple rounds of meetinfs & Presentations because of their high time cost, architectural reviews are reserved for large or risky changes
+
+We call the other tpe of design review process request for decsions or RFD
+
+the term RFD is not very common but the patter isl some discussion but not a full review
+
+an engineer requesting a decision ciruclates a quick write-up describing the decision to be made- a light design document
+
+teammates then whiteboard, dicuss the toptions, provide input nd make a decision
+
+### Dont suprise people 
+
+instead when you do your initial research, get early feedback from other teams and teach leads; this will lead to a better design, keep them aware of your work, and give them a stake in your design
+
+the parties you invovled early can become chamoions of your work later
+
+your goal is simply to make poeple aware of what you're doing, to give an opportunity for feedback and to get them thinking about your work
+
+keep poeple up to date as you progress
+
+give updates in status meetings and standups
+
+### Brainstorm with design disccussions
+
+Discussions happen early in the design cylce, when the problem is reasonably well understood but the design is not yet settled; a draft design doc should exits, but may still have a lot of gpa sna d open questions
+
+desing discussion meetings need to be scheudled for large chunks of time-two hours or so so ideas can develop
+
+### Contribute to design
+
+Reading design documents and going to brainstorm meetings might feel like a distraction - do it anyway 
+
+your participation will improve your teams design and help you learn
+
+when you join in on design give suggestions and ask questions
+
+apply the same guidance we give for code reviews
+
+think holistically about the design
+
+consider security, maintability, performance, scale and so on
+
+pay speical attention to how desings impact your areas of experties
+
+communicare clearly and be respectful
+
+asking questions is as important as giving suggestsions - questions will help you grow
+
+# Chapter 11: Creating Evolvable Architectures
+
+Managers try to deal with requirements voltility using iterative development processes like agile developement
+
+you can do your part to accomadate changing requirements by building evolveable architectures
+
+evolveable architectures eschew complexity, the enenmy of evolvability
+
