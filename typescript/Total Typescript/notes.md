@@ -210,9 +210,194 @@ I like Post[] for arrays, but I wanted to show the generic type syntax since it 
 
 ## Function Return Type Annotations
 
+In this case we'll add : User since we want to return a User.
+
+Before:
+
+const makeUser = () => {
+
+After:
+
+const makeUser = (): User => {
+
+Specifying the type a function returns will check your code as you write it.
+
+For example, User expects id to be a number. If you pass it a string, TypeScript will show you the error inside of the return object right away.
+
+Notice that if you don't include everything that User expects, the errors all show within the makeUser function where the errors are instead of in the tests at the bottom of the file.
+
+Adding type return annotations allows you to be more strict in ensuring that your function is safe on the inside as well as the outside.
+
 ## Typing Promises and Async Requests
 
+There are several solutions here.
+
+Do What TypeScript Suggests
+In the starting point of the code, hovering over the error message in VS Code pops up a message:
+
+The return type of an async function or method must be the global Promise<T> type. Did you mean to write 'Promise<LukeSkywalker>'?
+
+We get this error because the fetchLukeSkywalker function is async, so the type returned will be a Promise.
+
+Following TypeScript's suggestion to write Promise<LukeSkywalker> will fix this error:
+
+export const fetchLukeSkywalker = async (): Promise<LukeSkywalker> => {
+
+Note that this syntax is similar to the Array<Post> syntax we saw earlier. But unlike arrays, there's only one way to use Promise<T>.
+
+This solution works well, and is probably what I'd recommend.
+
+Type the Fetched Data Response
+By default, the data returned from a fetch request will be typed as Any.
+
+Even though we know from the API what our response will contain, TypeScript has no idea. That means that the Any type doesn't give us any autocomplete when we use it.
+
+
+export const fetchLukeSkywalker = async () => {
+  // `data` will be typed as `Any`
+  const data = await fetch(
+
+But because we've awaited the fetch, we can type data as LukeSkywalker:
+
+const data: LukeSkywalker = await fetch(
+
+This would give us the autocomplete because it's been properly typed.
+
+Now when we hover over the fetchLukeSkywalker function declaration, we can see that TypeScript has inferred the return type of the function to be Promise<LukeSkywalker> just like we saw in the prior solution.
+
+Cast Data as a Type
+In the cases we've looked at so far, we're kind of lying to ourselves a little bit.
+
+TypeScript doesn't know what we're going to return, so we have to tell it. But really, we don't know what the result of our fetch is going to be.
+
+This is where this soltion comes in:
+
+export const fetchLukeSkywalker = async () => {
+  const data = await fetch("<https://swapi.dev/api/people/1>").then((res) => {
+    return res.json();
+  });
+
+  // cast the data to LukeSkywalker
+  return data as LukeSkywalker;
+};
+The return data as LukeSkywalker line casts the fetch response to our LukeSkywalker type.
+
+When working with fetch requests, you should either cast the return data as a type or assign a type to the data when the request is made.
+
+More About Casting
+Casting allows us to let anyone become LukeSkywalker:
+
+const matt = {} as LukeSkywalker
+
+Compare the above to if we said matt was assignable to LukeSkywalker:
+
+const matt: LukeSkywalker = {}
+
+This would give us errors because the object doesn't include the appropriate properties. Generally speaking, the assigning syntax is safer than the as syntax, and is probably what you should do in most cases.
+
+## Passing type arguments
+
+We can pass in a type argument to the Set to tell it what type it should be:
+
+
+const guitarists = new Set<string>();
+When the argument is in place, we can only add items of that specific type.
+
+This also enables useful things like hovering over guitarists.add() and seeing that it expects a string.
+
+Digging Deeper
+You can pass in type arguments as well as function arguments to certain functions.
+
+In this case since Set is a class that we're instantiating, we can command-click or right-click and say "Go to Definition".
+
+Double-clicking takes us to a file called lib.es2015.collection.d.ts which is where certain parts of JavaScript are typed out.
+
+There's an interface for Set that starts like this:
+
+
+interface Set<T> {
+That T represents the type argument.
+
+Back in our solution code, if you erase the type argument and go back to just Set(), hovering over it will show you that it is typed as Set<unknown>.
+
+Lots of JavaScript constructs and popular libraries use this.
+
+Another Example
+Let's create a new Map and pass string as a type argument:
+
+
+const map = new Map<string>()
+Now when we hover, we see the following:
+
+
+Map<any, any>
+This is because Map accepts two type arguments: the first is the key, and the second is the value.
+
+If we wanted to create a map where the keys and values were both strings, it would look like this:
+
+const map = new Map<string, string>() map.set('someKey', 'someValue')
+
+Changing someKey to a number would now give us an error.
+
+This concept of passing type arguments to certain functions and constructors and classes is crucial for understanding TypeScript as a whole!
+
 ## Assigning Dynamic Keys to an Object
+
+Use the Record Utility Type
+One solution is to type cache as a Record:
+
+const cache: Record<string, string> = {}
+
+The first type argument to Record is for the key, and the second is for the value. In our case, both are strings.
+
+The Record type allows us to add any number of dynamic keys to the object at runtime, using something like this:
+
+cache['keyHere'] = 'valueHere'
+
+Record is different than the Set and Map we looked at earlier– it is only at the type level.
+
+Use an Index Signature
+Here's another way to update cache to please TypeScript:
+
+Recall that in the "before" code we had lots of errors like "You can't use that to index this".
+
+These errors were saying that they couldn't tell what types the key was. Whenever you see an error about an index, it's usually about an object key!
+
+For this fix, we'll add what is called an index signature to our cache:
+
+
+const cache: {
+  [id: string]: string;
+} = {};
+
+Index signatures put the name of the index and its type (string or number) inside of square brackets.
+
+So from the above, we can see that id is the index for cache.
+
+If we were to set it to [id: number]: string, every time we called cache.add() we would have to pass a number as the first argument.
+
+Use an Interface with an Index Signature
+
+We can also create an interface for Cache that contains the index signature:
+
+interface Cache {
+  [id: string]: string;
+}
+
+Then inside of the createCache function we would type cache as Cache:
+
+const createCache = () => {
+  const cache: Cache = {};
+
+This would work with a type instead of interface as well.
+
+Which One to Use?
+
+All of these solutions are fine-- there's no pros or cons between them.
+
+I find that the Record syntax is a bit easier to look at and parse what it's doing. It also displays helpful information when you hover over it.
+
+Assigning dynamic keys to an object is a common pattern in JavaScript, and these techniques allow you to do it.
 
 ## Narrowing Down Union Types
 
