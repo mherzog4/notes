@@ -401,14 +401,272 @@ Assigning dynamic keys to an object is a common pattern in JavaScript, and these
 
 ## Narrowing Down Union Types
 
+
+Inside of the coerceAmount function we can check if amount.amount exists, then return it. Otherwise, return amount:
+
+const coerceAmount = (amount: number | { amount: number }) => {
+  if (amount.amount) {
+    return amount.amount;
+  }
+  return amount;
+};
+
+Now our tests will pass, but TypeScript gives us an error.
+
+Hovering over amount.amount tells us:
+
+Property 'amount' does not exist on type number.
+
+This is a TypeScript quirk where you can't access a property unless you know it's there.
+
+Check Amount's Type
+One way to fix the type error is updating our if to check if the typeof amount is an object. If so, return amount.amount otherwise just return amount.
+
+const coerceAmount = (amount: number | { amount: number }) => {
+  if (typeof amount === 'object') {
+    return amount.amount;
+  }
+  return amount;
+};
+
+This would also work by checking if typeof amount is number, then return the amount. Otherwise, return amount.amount:
+
+const coerceAmount = (amount: number | { amount: number }) => {
+  if (typeof amount === 'number') {
+    return amount;
+  }
+  return amount.amount;
+};
+Using the typeof operator to narrow down different branches of a union type is really powerful technique.
+
+It's also really useful when interfacing with APIs that you didn't create.
+
 ## Typing Errors in a Try-Catch
 
-## Inheriting Interfact Properties
+Use Any Type
+One way to solve this challenge is to type e in the catch as any:
+
+
+} catch (e: any) {
+  return e.message;
+}
+
+We can use any because we're pretty confident that the error is going to be an error.
+
+What makes this solution not ideal is that we lose autocomplete on the e. This makes it easy to end up with typos that can cause issues later.
+
+This isn't the solution I would suggest.
+
+Coerce as Error
+A slightly better solution would be to coerce e to be an Error, and return the message:
+
+} catch (e) {
+  return (e as Error).message;
+}
+
+Here e is still unknown when we enter the catch, but using as coerces it to an Error and we get our autocomplete as expected.
+
+This solution is about as unsafe as the one above - we're not checking if e is an Error, we're casting it as an error.
+
+Check with instanceof
+This solution is pretty similar to the last, except this time we'll use instanceof to see if e is an Error:
+
+} catch (e) { if (e instanceof Error) { return e.message; } }
+
+} catch (e) {
+  if (e instanceof Error) {
+    return e.message;
+  }
+}
+Unlike previous solutions, this time we're checking e at runtime to whittle down what it could be.
+
+We're not blanketing it with the any type and we're not casting it to something else either.
+
+This is my recommended solution, because it's the safest.
+
+If you get something that isn't an error, it will fall down to the next block where you could do something else with it.
+
+However, depending on the constraints of your codebase and how much you care about avoiding anys, you may prefer one of the other solutions.
+
+## Inheriting Interface Properties
+
+The first thing to do is create a new Base interface with the id property:
+
+interface Base {
+  id: string;
+}
+
+With that in place, we can use the extends keyword with each of the other interfaces and remove the id:
+
+
+interface User extends Base {
+  firstName: string;
+  lastName: string;
+}
+
+interface Post extends Base {
+  title: string;
+  body: string;
+}
+
+interface Comment extends Base {
+  comment: string;
+}
+
+Adding extends Base makes it so the types inherit the properties of the Base interface.
+
+Note that if the User, Post, and Comment were defined using the type keyword, we would not be able to use extends:
+
+// This won't work!
+type Base {
+  id: string;
+}
+
+// Syntax errors
+type Comment extends Base {
+  comment: string;
+}
+
+This is because extends is a property of interface that type doesn't have.
+
+Interfaces can extend from other interfaces. This allows us to change things in just one place, which is really useful.
+
+It's even possible to extend multiple interfaces.
+
+For example, we can have Post extend from Base and User:
+
+interface Post extends Base, User {
+  title: string;
+  body: string;
+}
+Then when creating a new post variable, we would have autocomplete on all of the properties required.
+
+Interfaces can be composed together in a neater way than if we were just using types alone. This is particularly useful for situations where we have a complex data model that you want to express in TypeScript.
 
 ## Combining Types to Create New Types
 
+This syntax might look confusing, but it is exactly what we want:
+
+export const getDefaultUserAndPosts = (): User & { posts: Post[] } => {
+
+It says that we want to return a User as well as an array of Posts.
+
+The & tells TypeScript that we want to intersect the two.
+
+This is similar to what we saw with extends previously, but this time instead of inheriting, we are combining.
+
+With extends you inherit, and with & you combine.
+
+So we are making a single return type by combining User with an array of Posts.
+
+It's possible to intersect multiple types, including those we create inline.
+
+For example, we can also add an age:
+
+export const getDefaultUserAndPosts = (): User & { posts: Post[] } & { age: number} => {
+
+If the return type starts to get too messy, you can do the intersection at the type level:
+
+
+type DefaultUserAndPosts = (): User & { posts: Post[] } & { age: number}
+
+export const getDefaultUserAndPosts = (): DefaultUserAndPosts => {
+Now when working with the DefaultUserAndPosts type, we would get autocompletion on all of the required properties.
+
+Intersection is usually used for composing types from other types, but can be useful in other situations as well.
+
 ## Selectively Construct Types from Other Types
+
+There are a couple of solutions here that both make use of TypeScript's built-in helpers.
+
+Use Omit
+The first solution is to Omit.
+
+According to TypeScript, this constructs a type with the properties of T except for those in type K.
+
+Here's what the syntax looks like:
+
+type MyType = Omit<User, "id">;
+
+What we're saying here is create a type with everything that User has except for id.
+
+Use Pick
+The second solution is to use Pick, which is the inverse of Omit:
+
+type MyType = Pick<User, "firstName" | "lastName">;
+
+Here we're taking User and picking its firstName and lastName properties.
+
+Note that Pick provides autocompletion while Omit does not.
+
+This is because you are able to omit keys that aren't present on the original type, which means you end up with all of its properties. This is an advanced problem that we will tackle down the road.
+
+For now, just know that both of Omit and Pick are globally available in TypeScript and are extremely useful tools.
+
+
 
 ## Typing Functions
 
+You can declare a function type using this syntax:
+
+(isFocused: boolean) => void
+
+The isFocused argument is a boolean, and we're returning void.
+
+This syntax can be used inline like this:
+
+const addListener = (onFocusChange: (isFocused: boolean) => void) => {
+
+Or it can be extracted to its own type like this:
+
+type FocusListener = (isFocused: boolean) => void;
+
+const addListener = (onFocusChange: FocusListener) => {
+
+The Structure of a Function Type
+The basic structure starts with the arguments and the return type, both of which can be whatever you want.
+
+You can use undefined for the return type, but then your function has to actually return undefined.
+
+For times when your function has no return value, you should use void.
+
+Using Function types
+Here's an example of adding an isGreat boolean as an additional argument:
+
+type FocusListener = (isFocused: boolean, isGreat: boolean) => void;
+
+Then whenever we called the FocusListener we would have to include parameters for both:
+
+const addListener = (onFocusChange: FocusListener) => { onFocusChange(true, true) }
+
+We can also use function types in the same way we're used to using other types. Just be aware that your return types match appropriately.
+
+const myFocusListener = (isFocused: boolean): void => { // TypeScript error that `{}` is unassignable to void return {} }
+
+Most of the time you're not going to need these types unless you're passing functions to other functions, or declaring the type of the function.
+
 ## Typing Async Functions
+
+Here's the correct syntax for typing these functions:
+
+const createThenGetUser = async (
+  createUser: () => Promise<string>,
+  getUser: (id: string) => Promise<User>,
+): Promise<User> => {
+  const userId: string = await createUser();
+
+  const user = await getUser(userId);
+
+  return user;
+};
+
+Same as before, these can be extracted out into their own types as well:
+
+type GetUser = (id: string) => Promise<User>;
+
+What this is saying is that we have an id which is a string, and the function will return a Promise containing a User.
+
+If we had GetUser only returning the User without the Promise, we won't be able to call it as an async function in the test due to errors.
+
+Wrapping function return types with Promises is really useful when working with real world processes like fetching from databases.
+
