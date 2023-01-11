@@ -2776,3 +2776,337 @@ you can do your part to accomadate changing requirements by building evolveable 
 
 evolveable architectures eschew complexity, the enenmy of evolvability
 
+## Understanding complexity
+
+complex systems have two characetersit: high dependency and high obscurity
+
+we add a third: high inertia
+
+high dependencu leads software to rely on otther code's API or behavior
+
+high-dependnecy systems are hard to modify because they have tight coupling and high change amplification
+
+tight coupling describes modules that depend heavily on one another
+
+it leads to high change amplififcation, where a single change requires modifications in depenendncies as well
+
+thoughtful API design and a restrained use of abstraction will minimize tight coupling and change amplification
+
+high obscurity makes it difficult for programmers to predict a change's side effects, how code behaves and where changes need to be made
+
+obscure code takes longer to learn and developers are more likely to inadventernyl break things
+
+god objects that "know" too much, global state that encourages side effects, excessive indiriection that obscures code and action at adistance that affects behavior in distant parts of the program are all symptopms of high obscurity
+
+APIs with clear contracts and standard patterns reduce obscurity
+
+intertia, the characteristics we've added to the list is softwares tendency to stay in use
+
+easily discarded code uesed for a quick experieiment has low inertia
+
+a service that powers a dozen business critical applications has high inertia
+
+complexitys cost accrues over time, so high intertia, high change systems should be simpligied while low inertia or low-change systems can be left complex (as long as you discard them or continue to leave them alone)
+
+## Desgin for evolvability
+
+Use the KISS method to remeber to build with simplicity in mind
+
+simple code lets you add complexity later, when the need becoems clear and the change becomes unavoidable
+
+the easiest way to keep code simple is to avoid writing it alrtogether
+
+tell yourself that you aint gonna need it
+
+when you do write code, use the principle of least astonishment and encapsulation
+
+these design principles will keep your code easy to evlove
+
+### You aint gonna need it 
+
+YAGNI is a simple design practice: dont build things you dont need
+
+YAGNI violations happen when developers get excited, fixated, or worried about some aspect of their code
+
+Avoid premautre optimzation, unnecessarily flexible astractions, and product feautres that arent needed for a Minimum viable product (mvp) - the bare minumum feature set that you need to get user feedback
+
+premature optimization occurs when a developer addsa  performance optimization to code before its proven to be needed
+
+the developer optimizes the code before its been shipped, before anyone has used it
+
+after shipping the code, the developer discovers that the optimization was not needed
+
+abstractions come with a cost; it boxes implmentations into rigid boundaries that the developer ends up gihter later
+
+fleixibility also makes code harder to read and understand
+
+the best way to keep your code fleixible is to simply have less of it
+
+for everything you build, ask yourself what is absolutely necessary and throw away the rest
+
+this technique-called muntzing-will keep your software trim adn adaptable
+
+developers talk themselves into the cool-feature pitval for a variety of reasons: they mistake their usage for what most users want, they think itll be easy to add or they think itll be neat
+
+each new feautre takes time to build and maintain and you dont know if the feature will actually be ueseful
+
+building an MVP will keep you honest about what you really need
+
+### Principle of least astonishment
+
+the principle of least astonihsment is pretty clear: dont suprise users
+
+build fatures that behave as users first expect
+
+features with a high learning curve or stange behavior frustrate useres
+
+similarly dont suprise develoeprs
+
+supriing code is obsucre, which causes complexity
+
+you can eliminate suprises by keep code specific, avoiding implicit knowledge and using standard libariries and patterns
+
+anything nonobvious that a developer needs to know to use an API and is not part of the API itself is considered impocit knwoledge
+
+APIs that require implicit knowledge will suprise developers, causing bugs and a high learning curve
+
+two common implcit knowledge violations are hidden ordering requirements and hidden argument requirements
+
+Ordering requirements dictate that actions take place in a speicific sequence
+
+method odering is a frequent violation: method A must be called before method B, but the API allows method B to be called first suprising the deleveoper with a run time error
+
+counterintuitivelt, short method and variable names actually increase cognitive load, specific, longer method names are more descriptive and easier to understand
+
+hidden arugemnt requirements occur when amethod signature implies a wider range of valid inputs than the method actually accepts
+
+for example, accpeting an int while only allowing numbers 1 to 10 is a hidden constraint
+
+fianlly, use standard libraries and development patterns
+
+implementing your won square root method is suprising; using a languages built-in sqrt() method is not
+
+### Encapsulate domain knwoledge
+
+encapsualte domain knwoledge by grouping software based on business domain-accounting, billing, shipping and so on
+
+mapping software componenents to business domains will keep code changes focuses and clean
+
+encapsualted domains naturally gravitate toward high cohesion and low coupling - desirable traits
+
+high cohesive software will low coupling is more evolvable because changes toend to have a smaller "blast radius"
+
+code is highly cohesive when methods, variables and classes that relate to one anotehr are near each other in modules or packages
+
+decoupled code is self-contanedl a change to its logic does not require changes to other software componenetns
+
+
+grouping code by techinical domain works great within a single bsuiness domain but grows messy as business grow
+
+separate teams form around each tier, increasing coordination cost since every business logic change slices through all tiers
+
+and shared horizontal layers make it too easy for developers to mix business logic between domains, leading to complex code
+
+There is an entier architectuaral approach called domain-driven-desgin which defines an extensive set of concepts and practcies to map business cocnepts to software - full blown DDD is necessary only for the most complex situations
+
+## Evolvable APIs
+
+changing an API is easy to do, but its hard to do right
+
+many small rational changes can lead to a sprawling mess - worse, a minor API change can completely break comptabilty
+
+APIs that are small, clearly define, compatible and versioned will be asier to use and evovle
+
+### Keep APIs small
+
+Small APIs are easier to understand and evolved
+
+Larger APIs put more conginite load on developers, and you'll have more code to document, support, debug and maintain
+
+apply the YAGNI philosophy: only add API methods or fields that are immeditately needed
+
+when creating an API data model, only add methods you need at the time
+
+when botstraping your API using a frameowkr or gereator tool, eliminate fields or methods you're not using
+
+### Expose well-defined service APIs
+
+evolvable systems have clearly define request and response schemas that are version and have clear compatability contracts
+
+schemas sefintions should be published so they can be used to automatically test both client and server code
+
+use standard tools to define sevice APIs - a well defiend service will delcare its schemas, request and response methodsm anbd exceptions
+
+OpenAPI is commonly used for RESTful services, while non-REST servieces use protocol Buffers, thrift or similar interface dfintion language
+
+well-defined service APUs make cimpile-time viladation easier and keep clients, servees and documentation in sync
+
+### Keep API change compatinle
+
+Keeping API changes compatible lets client and server versions evolve dindentpently
+
+there are two froms of compatibiltiy to consider: forward and backward
+
+forward-compatible changes allow clients to use a new version of an API when invoking an older service version
+
+Backward compatiblity changes are the opposite: new versions of the libarary or service do not require changes in odler client code
+
+### Version APIs
+
+As APPIs evolve over time, you will need to decide how to hadnle compatibilty across mutliple versions
+
+full backward and forward compatible changes interoperate with all previous and future versions of an API;
+
+this can be hard to maintain, creating cruft like the logic for dealing deprecated fuekds - kess stringent compatability gurantees allow for more radical changes
+
+versioning your APIs means you introduce a new version when changes are made
+
+API versioning comes with a cost:
+
+older major versions of the service need to be maintained and bug fixes need to be backported to prior versions
+
+Developers need to keep track of which versions support which features
+
+lack of version management tooling can push version management on to engineers
+
+Keep documententation versioned along with your APIs
+
+developers dealing with older versions of your code need accurate documentation
+
+its really confusing for users to reference a different version of the documentation and discover that the API they're using doesnt match uo
+
+AOU versioning is most valuable when client code is hard to change
+
+you'll usually have the least control over external (customer) clients, so customer facing PAIs are the most imortant to version
+
+## Evolvable Data
+
+APIs are more ephemeral than persisted data; once the client and sever APIs are upgraded, the work is done
+
+data must be voled as applications change
+
+isolating databases and using explicit schemas will make data evolution more manageable
+
+with an isolated database, you need only worry about the impact of a chnge on your own application
+
+schemas protect you from reading or writing malformed data and automated schema migrations make schema changes predictable
+
+### Isolate databsaes
+
+shared database are diffcutl to evolve and will result in a loss of autonomy-a develoeprs or teams ability to make independent changes to the system
+
+isolated databses are accessed by only a single application, while share databses are accesed by more than one
+
+applications with shared databses an grow to depend directly on each others data
+
+applications act as a contrl point for the underlying data they serve
+
+you cant apply business logic on your raw data before serving it, and you can't easily redirect queries to a new data store during a migration if queries bypass your applications
+
+By contrast, isolated databases have just a single reader and writer - all other traffic goes through remote procedural calls
+
+Isolated databsaes afford you all of the flexibility and isolation that shared databses do not
+
+you need only worry about your own application when making databses schema changes and database performance is governed by your usage
+
+
+there are occasional cases where a shared database is valuable
+
+when breaking up a monolith, sharing a databsae servers as a useful intermediate step before data has been migrated to a new isolated database 
+
+managing many databases comes at a high operational cost
+
+### Use Schemas
+
+Rigid predefined columns and types and heavyweight processes for evolving them, have led to the emergence of popular schemalss data manegement
+
+schemaless doesnt lierally mean "no schema" rather schemaless data has an impocit schema that is supplied or inferred at read time
+
+in practice, we've found that a shcemaless appraoch has data integrity and complexity problems
+
+a stringly type schema forward approach decreases the obsucirty and therefor complexity of your application
+
+Defing explicty scehams for your data will keep your application stable and mke your data usable
+
+explicit schemas let you sanity-check data as it is written
+
+parsing data using explicit shcemas is usually faster too
+
+schemas also help you detect when forward and back incompatible changes are made
+
+the rigidity of explicit schemas also carries a cost: they can be difficult to change
+
+this is by design
+
+schemas force you to slow downa nd think through how exisiting data is going to be migrated and how downstream users will be affected
+
+if your primary goal is to move fast-perharps before you know what you need, when you are iterating rapdily, or when old data has little to no value - aschemaless apprach lets you cut corners
+
+flipping data from explicity to implicity schema is also a helpful trick when migrating datal you might temporarily make data schemaless to ease the transition to new explicit schema
+
+### Automate schema migrations
+
+mannaging databse changes by manually executing database description language commands is error prone
+
+Database schema management tools make database changes less error prone
+
+automated tooling does two things for you:
+
+it forces you to track the tnetier history of a schema and it gives you tool to migrate a shcema from one version to another
+
+track schema changes, use automated database tools and work with your databse team to manage schema evolution
+
+Database schema management tools make databse changes less error prone
+
+tracking DDL changes in files hleps developers see how the she schemas has changed over time
+
+files tracked in a version control system will show who made which changes, when, and why - pull requests will afford the opportunity for schema reviews and linting
+
+Dont couple database and application lifecycles
+
+tying schema migrations to application deplotment is dangerous
+
+schema changes are delicate and can have serious perofrmanc eimplications
+
+separating database migrations from application deplomyment lets you control when schema changes go out
+
+many Object-Resource-Mappers (ORMs) come with schema migration managers as well
+
+more sophisticated databse operations tools also exist
+
+tools like gihut's gh-ost and percona's pt-online-schema help with database adminstators run large schema changes without impacting performace
+
+### Maintain scheman compatibility
+
+Data written to disk has the same compatibility problems that APIs have
+
+like APIs, the reader and writer of the data can change indepenendlty; they might not be the same sofrare and might not be on the same machine
+
+and like APIs data has a schema with field names and tpyes
+
+changing scehmas in a forward-or backward incomptible way can break applications
+
+use chamea compatibiltiy checks to detect incompatible changes, and use data products to decouple internal and external scehmas
+
+data warehouses are databases used for analytic and reporting purposes
+
+organizations set up an extract, transform, load (ETL) data pipeline that extracts data from production databses and transforms and loads it into a data warehouse
+
+ETL pipelines depend heavily on database schemas, simply dropping the column in a production databse could cause the entire data pipeline to grind to a halt
+
+other systems might also depend on your databse schemas
+
+change data capture (CDC) is an event-based architecture that conversts insert, and delete operations into messages for downstream consumers
+
+data warehouse pipleins and downstream users must be protected from breaking schema changes
+
+validate that your schema changes ar safe bfefore exucting them in production
+
+you can slo protect internal schemas by exporting a data product that explicitly decouples internal schemas from downstream users
+
+data prodcuts map internal sceham to saparate users-facing schemas
+
+# Chapter 12: Agile Planning
+
+
+
