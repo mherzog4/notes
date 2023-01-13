@@ -3108,5 +3108,456 @@ data prodcuts map internal sceham to saparate users-facing schemas
 
 # Chapter 12: Agile Planning
 
+Agile development, a software methodology, is widely adopted to deliver quality software quickly
 
+understanding the core phisophy and the goals of common agile processes such as sprint planing, daily standups, reviews and retrospectives will help you use them effectively
+
+## Scrum
+
+All planning usually begins with prework
+
+developers and product managers create new user stories, adn tickers from the backlog are triaged
+
+stories are assigned story points to estimate their complexity and are broken into tasks
+
+larger stories are designed and researched with spike stories
+
+### User Stories
+
+a User story is a specific kind of ticket that degines a feature request from a user's perspective, in the format "As a <user> I <want to><So that>"
+
+Writing user-centric-descriptions keeps the focus on delivering user value
+
+If you are going to bother writing storeis as opposed to tasks,write good ones
+
+stories usually have attributes beside their title and description
+
+the two most common are estimates and acceptance criteria
+
+User story estimates are a guess at the effort a story takes to implement
+
+Accepance criteria define when a story is complete
+
+accepetance criterai keep devlopers, product managers, QA and users on the same page
+
+try to write explciit tests for each accepetance criteria
+
+small stories often double as work tickets, while larger storeis are linked to implmentation tickets or subtasks
+
+### Tasks
+
+A single story may need to be broken down into smaller tasks to estimate how long it will taje, to share the work between mutliple developers and to track implementation progress
+
+a good trick for breaking down work is to write very detailed descriptions & read over the descriptions to find all the tasks
+
+### Story Points
+
+The team's work capacity is measured in story points, an agreed-upon sizing unit (measured in hors, days, or "complexity")
+
+a sprint capacity is the number of developers multiplied bu the story points per developer
+
+for example a team with 4 engineers and 10 points per engineer would have a 40 point capacity
+
+user-story time estimares are also define in story points; the sumer of all story points in a sprint should not be greater than sprints capacity
+
+many team use time-based allocations where a single point amoiunts to one workday
+
+day-based estimates usually account for nontaks work-meetings, interuptions, code reviews and so on-by defining a workday as 4 hours long
+
+others define story points by task complexity, using a T-shirt size ppraocj: one point is extra small, two points is small, three points is medium, 5 points is large nad 8 points is extra large
+
+having some gaps between point values also force teams to make harder decisions about whether an item is big or small, not mediumish
+
+the increase in the size of gaps for more xomplex takss account for estimation inaccuracy in larger work
+
+Changinng a single method might seem like a small amount of work, but if that method is incredibly complex, itm ight require a lot of effort
+
+its metnally easier to say "this is a medium-complexity task" than "this will take me three full days of work"
+
+### Backlog triage
+
+Backlog triage usually takes place before planning meetings
+
+the backlog is a list of candidate storeis
+
+triage is used to keep it fresh, releavant and prioritized
+
+new stories are added, outdated storeis are closed, incomplete stories are updated and high-priority work is moved to the top of the backlog
+
+well maintained backlog will drive planning meeting discussions
+
+### Sprint planning
+
+planning meetings ar collaborative; engineering teams work with product managers to decide what to work on
+
+priotized stories are disucssed and engineers work with product managers to determine what will fit inot the sprints capacity
+
+sprint capacity is determined by looking at how much was completed in previous sprtins
+
+each sprint capacity is further refined during sprint planning as team memebrs join or leave
+
+the most imortant feature of a sprrint is that its short - usually two weeks
+
+short sprints make pushing out work doable sine the work need only be pushed out at most a week or two
+
+small sprints force teams to break down large tasks into smaller ones
+
+smaller developemnt cycles with frequent touch pints -stand-ups and reviews-mean problems surface earlier
+
+sprints are considered locked once sprint planning is done
+
+new work that surfaces during the spirnt should not be pulled in; it should be pushed to the backlog and planned for a future sprint
+
+locking spritns lets developers foucs on their work and brings predictability
+
+when unplanned work does get pulled in, the team is expected to look into the reasons during the retordpective with an eye to reducing unplanned work in the future
+
+### Stand ups
+
+after spring planning is complete work begisn and the team holds stand ups
+
+stand ups keepe veryone apprised on your progress, keeps your accountable and focused and giives the team an opportunity to react to anything that puts sprint goals in danger
+
+in the meeting format, teammates go around in a circle and give an update on what they have worked on since the last standup, what they plan to work on going forward and whether they've found any issues that can delay or derail the sprint
+
+try to limit you comments on progress to just the bare essnetails and raise any issues that you have
+
+announce discoveries too; bigs that you discovered, unexpected behavior you found and so on
+
+discussions about your discoveries can then happen in the parking lot
+
+if your standups involve updating the status on tickets or issues try your best to update tickets assigned to you beforehand
+
+when reading or listening to others updates you're looking for opportunities to help derisk sprint completeion: if someone says that a ticket is taking longer than expected, volunteer to help if you have spare time
+
+parking lot discussions happen after the meeting - its a way to keep the stand-ups brief and make sure that the disucssions are relevant to everyone attedning
+
+## Reviews
+
+a review happens betweene each sprint
+
+reviews are usually broken into two parts: Deomstrations and project review
+
+during demostrations everyone on the team shows the progress they've made in the sprint
+
+afterward, the curretn spritn is evaluaated against its goal
+
+successful sprints will meet their goals and have a high stroy-completion rate
+
+its standatd to keep reviews to no more than one hour per sprint week - a two week sprint would have a two hour sprint review
+
+everyone gathers around for demos and teammates take turns showin what they;ve worked on
+
+Reviews celebrate team wins, create unity, give feedback opportuntieis and keep teams honest about progress
+
+## retrospectives
+
+In a retrosepctvie, a team gets togethre to talk about what has and what hasnt gone well 
+
+gthe meting normally has 3 phases: Sharing, prioritization, and problem solving
+
+spend a few minutes before each retrospective to think about what would make your team better & share your thoughts at the meeting
+
+reviews are focused on the work done in a sprint while retrospectives focus on process and tooling
+
+retorpesctives normally take place between sprints, often right after review meetings
+
+## Roadmaps
+
+Two-week spirnts are a good way to get small and medium sized wor done but larger projects need more advanced planning
+
+Managers use product roadmaps for long-term planning
+
+roadmaps are typically borken into quarters - Q1, Q2, etc
+
+weve never seen a year or quarterly roadmap to be 100 percent accurate - this isnt the point
+
+roadmaps should encourage everyon to think long-term about what the team is building
+
+they're not meant to be static and reliable documents about what the team will build nine months later
+
+unlike sprints, which are locked, roadmaps are meant to evolve
+
+cusotmers requirements will change, new tech problems will arise
+
+# Chapter 13: Working with managers
+
+## What managers do
+
+engineering managers work on people, product, and process
+
+managers build teams, coach and grow engineers, and manager interpersonal dynamics
+
+## Communication, goals and growth process
+
+one-on-ones and progress-plans-problems reports are used for communications and updates, while objectives and key results and performance reiveiws manager growth and goals
+
+### 1:1s 
+
+one-on-ones are dedicate time for you and your manager to discuss critical topics, address big picture concerts and build a productive long-term relationshop
+
+one-on-ones are a well know practice but they're often run poorly as status check-ins or troubleshooting
+
+You should set the agenda and do a lot fo talking in the 1:1s
+
+prior to the meeting share a bullet point agenda with your manager
+
+keep a 1:1 doc that contains past agendas and notes
+
+share the doucment with your manager and update it before and after each 1:1
+
+your manager can add their items if they have topics to discuss, but your managers agenda should take a back seat to yours
+
+you set the agenda in a 1:1; and 1:1 are not for status updtes
+
+these two points alone can make the difference between hours and hors of wasted time and very producutive and important conversatoins
+
+use the follow proprs as topics for discussion:
+
+- Big Picture
+    what questions do you have about the company's direcrection or what questions do you have about organization changes
+
+- Feedback
+what could we be doing better? what do you tink of the team's planning porcess? What is your biggest technical conern? what do you wish you could do that you can't? what roadblacks are you or others on the team encoutering?
+
+- Career
+What career advice does your manager have for you? What can you improve on? what skills do you wish you had? 
+
+- Personal
+what personal issues should your manager be aware of
+
+reach out to those who you think you could learn from 
+
+in fact, 1:1s with senior engineers are particuarly helpful if your comapny does not have a formal mentoring program: 1:1s are alsoa  good way to get familiar with different parts of the organziation
+
+### PPP's
+
+A PPP is commonly usesd status update format
+
+a status update isnt meant to account for your timel its mean to help your manahger find problems, areas where you need context, and opportunities to connect you with the right people
+
+PPPs have a sectin for each of the P's (progress, Plans, and problems) each section should have three to 5 bullet points
+
+2022-07-02
+
+PROGRESS
+
+- debuged performance issue with notification service
+- Code review up for email templating in notification service
+- spam detection service design criculated and milestone 0 service written
+
+PLANS
+
+- Add metrics and monitroing to spam detection service
+- work with tools team to support PyPI artifacts
+- Help onboard new hire - doing a codw walk-through fo spam detection service
+
+PROBLEMS
+
+- Having trouble getting team code review my PRs-several pending
+- Redis stability is an issue
+- Inteview load feels high - averaging 4 per week
+
+Share PPPs with you manager and anyone else who is interested
+
+PPP updates are easy if you keep a log on past PPPs
+
+everytime a new PPP is due create a new entry
+
+look at your probelms from the last PPP and ask yourslef have any problems been solved?
+
+### OKRs
+
+The OKR framewokr is a way for compaies to define goals and measure their success
+
+in the OKR frameowkr comapnies, teams and individuals define goals (objectives) and attach metrics (Key results) to each objective
+
+each objective has 3 to 5 key results, whcih are metrics that singla progress toward the objective
+
+- Objective: Stabilize order server
+- key result: 99.99 percent uptime
+- key result 99th percintile latency
+- key result: support team can execute regional failover in less than 5 minutes
+
+Dont mistake the key reuslts to a to-do list
+
+they should spell out now how to do something but how you'll know when something is done
+
+objectives and key results are usually defined and evullated quarely
+
+try to have as few OKRs as possible; itll keep you focused
+
+between 1 and 3 OKRs per quarte is a sweet spot
+
+OKRs are commonly set higher than reasonable to create "reach" or "streatch" goals
+
+this philsophy implies that you should not complete 100 percent of your reach-gaol OKRs
+
+### Performance reviews
+
+Reviews are conducted using a tool or template with prompts like this
+
+- what have you done this year
+- what went well
+what could have gone better
+what do you want in your career & where do you see oyourself in 3 to 5 years
+
+keep and up to date list of the work you completed throughout the year
+
+look at the tasks you competed in your company's issue tracker
+
+waht milestones, epics and stories did you work on
+
+merged pull requests and code reviews also show work you've done
+
+dont forget non-engineer projects
+
+You should never be suprised by your perfroamcen teview feedbackl if you are talk with you manager baout the communcation breakdown - a successful performance review should give you concrete actions to achieve your goals
+
+## Managing up
+
+you cn help your manager by giving them feedback
+
+### Get feedback
+
+you need regular feedback so you can adjust quickly
+
+managers dont alwasy voluneteer feedback so you might haveto ask
+
+use 1:1s to get feedback - send questions to you manager beforehand; ask for specific feedback
+
+"what could i do to get better with testing"? is better than "What could i do to get better?"
+
+ask for feedback with communicatoin, career growth, leadership, learning oportunties and so on
+
+### Give feedback
+
+Managers need to know how things are going-whats working and whats not
+
+every indivudal on the team is going to have a unique persepctive
+
+feedback elemienates blind sports
+
+use the sitation-behavior-impact (SBI) framework when rpoviding feedback
+
+frist describe the situation, then desribe the behavior; a specific behavior you find praiseworthy or problematic, finally explain the impact: the effect of the behavior and the reasion its important
+
+Note that you do not reccomend a solution in the SBI frameowkr
+
+you might have a solution in mind, but tis best to start with the issue and learn more before amking recomendations
+
+### Discuss your goals
+
+you need to clearly articulate your goals and aspirations for your manager to help you achieve them
+
+formal reviews are a grerat place for such convos
+
+if time passes and you are unhappy, it might be time for a transfer to another interal team or a new jov
+
+# Chapter 14: Navigating your career
+
+## To senior and beyond
+
+The number of levels vary from company to company but there are usually two transitions that indicate significatn shifts in seniority: from Junior to senio and from senior to staff/principle
+
+junior engineers implement features and complpete taks
+
+senior engineers deal with more uncertainty and ambiguityl they help detemine what to work on, talke larger and more critical projects and need less direction
+
+staff engineers take on aan evev broader responibility that exten beyond their team
+
+tehy contribute to engineering strategy, quarterly planning, system architecture and run engineering processes and policies
+
+staff engineers still code but to get at this level, just being a goo dcoder isnt enough; you need to have to understand the big picture and make decisions with far-reeaching consequences
+
+## Career advice
+
+cultivate a T-shaped skillset, particiapte in engineering programs, engage in the rpomotion process, dont hcange jobs too requently and pace yourself
+
+### Be T-shaped
+
+Software enginener ha many specialities: Frontend, backend, operatios, data warehousing, machine learning and so on.
+
+"T-Shaped" engineers work effectively in most areas and are experts in at least one
+
+start by building your bases
+
+base-building will expose you to different subfields so you can find your passion
+
+look for proejcts that involed other reams sucha as data sceientniests, operatiosn, front end and so one
+
+work with other teams code and ask if its okay to contribute patches or pair program as changes are made
+
+delve deeper to acquire dpeth as you encouter subjects and problems that pique your interest
+
+a good team iwll have a solid mix of T-shaped people
+
+product developer teams are likely to have a vairea areas of depth among teammates whil infra teams are likely to have a share expertise
+
+
+### Participate in engineering programs
+
+Hiring, interviewing, brown bads, conceferences, meetups, reading groups, open source projects and aprentice ship and mentoring programs are all opportuntiies to get invovled
+
+### Steer your promotion
+
+learn the promotion process, make suer your work is valuable and visible and speak up when you thin you're nearing the next level
+
+to get promoted, you'll need to know how you're evaluated and what the promotion process looks like
+
+find your compan''ys career ladder to determine the skills you need for the next level
+
+talk with your manager about the promotion process
+
+are promotions done anually? who evaluates potential promotions? do you need a menotr, sponsor or promotion pakcet?
+
+write a brief document that lists your achievements for each category of the career ladder
+
+look for areas that you need to develop
+
+solicit feedback from your manager, peers and mentors
+
+tell people why you are asking for feedback so they know you aren't just looking for reassurance
+
+dig into specifics:
+
+- "if you compare my design docs to those by some level 3 engineeers are there differents that are apparant?"
+
+- " you said i write good tests. which tests that iw rote do you find good? whats a example of less-good tests? who at our company writes great tests? how is what i do different from what they do
+
+
+a promising but unfinished porjects isnt enough; managers want to see results
+
+technical skills are necessary but not sufficient: you must work well with others, contribute to teams goals, and help the organization
+
+a promotion isnt a function of time: whether you are in your job for 1 year or 5, impact is what matters
+
+when you hit the next level, expect to be there for 3 to 6 months before promotion so you prove you can consistently meet the bar
+
+when it comes to promotion conversations, timing matters
+
+start these conversations before you think you are ready for a promotion- about when you've hit the halfway point
+
+engaging early gives you and your manager time to align and address gaps.
+
+Staff work requeres braod influence and "glue work" ( coordination, process improvements, documentation, communication and so on)
+
+at the sentio level and below, requirements are often described more in terms of pure coding ability
+
+this creates a problem for junior engineers who take on essential noncoding work that does not have a Git commit attached to it - such engineers spend less time coding, so their promotions get delayed or they get pushed to a different role such as project management
+
+### Chnage jobs carefully
+
+if you are constantly swtiching jobs youll never see how your decisions play out over the long term, which will stun the development of the intuition you need as a seniorn engineer
+
+hiring managers see a series of short stins on a resume as a red flag: they worry that will leave as soon as the going gets tough and the inital "honeymoom" period is over
+
+
+open source and side proejcts are also a good way to stay fresh if your scheudle allows it - you also might conider staying at the same company but switching teams
+
+exceptional opprtunties dont arrive on a convenient scheulde, and you should be open to them when they appear
+
+conversly dont stay at a job too long - becoming stagnant is a legitemate reason to change things up
+
+longtime engineers at a compnay naturally become historians
 
