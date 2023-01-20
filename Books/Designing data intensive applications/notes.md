@@ -353,3 +353,63 @@ good abstractiosn can help reduce complexity and make the systme easier to modif
 good operability means having good visibility inot the systems health and having effective ways of manaing it
 
 # Chapter 2: Data Models and Query Languages
+
+Most applications are built by layering one data model on top of another
+
+for each layer the key question is: GHow is it represented in terms of the next-lower layer?
+
+for example:
+
+1. as an application developer, you look at the real world and model it in terms of objects or data structures and APIs that manipulate those data structures. those structures are often specific to your application
+
+2. when you want to store those data structures, you express them in terms of a general-purpose data model such as JSON or XML documents, tables in a relational database or a graph Model
+
+3. the engineers who built your databse software decided on a way of representing that JSX/CML/relational/graph data  in tems of bytes in memory, on disk, or on a network
+
+the representation may allow the data to be queried, searched, mainupilated and processed in various ways
+
+4. on yet lower leverls, hardware engineers have figured out how to represent bytes in terms of electrical currents, pulses of light, magenetic fields and more
+
+in a complex application there may be more intermediary levels, such as APIs built upon APIs but the basic idea is still the same: each layer hides in the complexity of the layers belwo it by providing a clean data model
+
+## Relational Model vs Doucment Model
+
+Thebest known data mdeol today is probably SQL, based on the therelational model
+
+Data is organized into relations (called tables in SQL) where each relation is an unordered collection of tuples (rows in SQL)
+
+The roots of relational databses lie in business data processessing
+
+Much of what you see on the web today is still pwered by telational databses
+
+### The birth of NoSQl
+
+there are several driving forces behind the adoption of NoSQL databses, including:
+
+- a need for greated scalability than relational datbases can easily achieve, including very large datasets or very high write throughput
+
+- a widespread preference for free nad open source software over commercial databse products
+
+- specialied query operations that are not well supported by the relational model
+
+- frustrations with the restrictiveness of relational schema, abd a desrire for a more dynamic and expressi data model
+
+### The object-relational mismatch
+
+Object-relational mapping (ORM) frameworks like ActiveRecord reduce the amount of boilerplate code required for this translation layer, but they cant completely hide the differences between the two models
+
+### Many to one and many to many relationships
+
+The advnatage of using an ID is that because it has no meaning to humans, it never needs to change: The ID can remain the same ven if the information it iednetieis changes
+
+anything that is meanigful to humans may need to change sometime in the future-and if that ifromation is duplicatied, all the redundant copesi need to be updated
+
+that incurs write overheads and risk inconsistencies
+
+removing such duplication is the key idea behind normalization in databses
+
+In relational databses, its normal to refer to tows in other tables by ID because joins are easy
+
+in document databses joins are not needed for one to many tree strcutuesa and support for joins is often weak
+
+### Are document databases repeating history?
